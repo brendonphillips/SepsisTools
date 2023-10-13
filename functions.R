@@ -8,118 +8,31 @@ options(dplyr.summarise.inform = FALSE)
 
 is_systematic <- function(DT) {
     return(DT %>%
-               group_by(part_id) %>%
-               summarise(split_acros_n_groups = length(unique(group_perm))) %>%
-               subset(split_acros_n_groups > 1) %>%
-               {nrow(.) == 0})
-}
-
-haha_map <- function(list_, zero_reference = NaN, ...) {
-    
-    zero_ref <- zero_reference
-    the_list <- list_
-    
-    warning_string <-  gsub(
-        " +", " ",
-        "The given zero-reference member `%s` is not a member of the 
-        given list. Using the first element of the list `%s` as the zero"
+        group_by(part_id) %>%
+        summarise(split_acros_n_groups = length(unique(group_perm))) %>%
+        subset(split_acros_n_groups > 1) %>%
+        {nrow(.) == 0}
     )
-    
-    # fix this function for booleans
-    
-    if(! any(is.na( as.numeric(the_list) )) ) {
-        
-        if(is.na(zero_ref)){ 
-            return(the_list)
-        } else if(! as.numeric(zero_ref) %in% the_list) {
-            warning(sprintf(warning_string, zero_ref, the_list[1]))
-            return( as.numeric(the_list == the_list[1]) )
-        } else {
-            return( as.numeric(the_list == zero_ref) )
-        }
-    }
-    
-    # # if any element of the list is not castable to a number, create map 
-    # # ourselves
-    # if( any(is.na( as.numeric(the_list) )) ) {
-    #     
-    #     the_list <- as.character(list_)
-    #     zero_elem <- the_list[1]
-    #     
-    #     if(is.na(zero_reference)) {
-    #         
-    #        
-    #         
-    #     } else if(! toString(zero_reference) %in% the_list) {
-    #         warning(sprintf(
-    #             "The given zero-reference member %s is not a member of the 
-    #             given list. Using the first element of the list %s as the zero",
-    #             zero_reference, the_list[1]
-    #         ))
-    #         zero_elem <- the_list[1]
-    #     }
-    #     
-    #     return( as.numeric(the_list == zero_elem) )
-    #     
-    # } else {
-    #     
-    #     return(as.numeric(the_list))
-    # }
 }
 
-# paste0("c(", paste(sample(1:5, 15, replace = TRUE), collapse = ","), ")")
-haha_num <- c(1,5,2,2,4,3,3,3,5,2,3,1,4,2,4)
-
-# haha_map(haha_num)
-# haha_map(haha_num, 4)
-# haha_map(haha_num, "4")
-# haha_map(haha_num, 6)
-# haha_map(haha_num, "6")
-
-# # paste0("c(", paste(sample(c(T, F), 15, replace = TRUE), collapse = ","), ")")
-# haha_bool <- c(TRUE,FALSE,FALSE,TRUE,FALSE,TRUE,FALSE,TRUE,TRUE,TRUE,FALSE,FALSE,FALSE,TRUE,TRUE)
-# haha_map(haha_bool)
-# haha_map(haha_bool, 4)
-# haha_map(haha_bool, "4")
-# haha_map(haha_bool, TRUE)
-# haha_map(haha_bool, "T")
-# haha_map(haha_bool, "TRUE")
-
-
-
-
-
-# # paste0("c('", paste(sample(1:5, 15, replace = TRUE), collapse = "','"), "')")
-# haha_num_string <- c('4','3','2','1','2','5','3','2','4','5','3','1','4','5','3')
-# 
-# # paste0("c('", paste(sample(letters[1:5], 15, replace = TRUE), collapse = "','"), "')")
-# haha_string <- c('d','a','e','e','b','d','e', '6','e','e','a','d','e','a','e','d')
-
-# print(haha_map(haha_num))
-# print(haha_map(haha_num, 2))
-
-# print(haha_map(haha_num_string))
-# print(haha_map(haha_num_string), 7)
-
-
-# print(haha_map(haha_string))
 
 
 SS_fn <- function(event, group){
-    Overall_rate <- mean(event)
-    gp_rates <- tapply(event,group,mean)
-    SS <- sum((gp_rates-Overall_rate)^2)
-    # SS <- sum(abs(gp_rates)>=abs(Overall_rate))/1000
-    return(SS)
-}
+        Overall_rate <- mean(event)
+        gp_rates <- tapply(event,group,mean)
+        SS <- sum((gp_rates-Overall_rate)^2)
+        # SS <- sum(abs(gp_rates)>=abs(Overall_rate))/1000
+        return(SS)
+    }
+
 
 SS_fn_testing <- function(event, group){
-    Overall_rate <- mean(event)
-    gp_rates <- tapply(event,group,mean)
-    SS <- sum((gp_rates-Overall_rate)^2)
-    # SS <- sum(abs(gp_rates)>=abs(Overall_rate))/1000
-    return(SS)
-}
+        Overall_rate <- mean(event)
+        gp_rates <- tapply(event,group,mean)
+        SS <- sum((gp_rates-Overall_rate)^2)
+        # SS <- sum(abs(gp_rates)>=abs(Overall_rate))/1000
+        return(SS)
+    }
 
 
 permgp_fn <- function(data_, groupname, idname, eventname, systematic){
@@ -188,7 +101,7 @@ perm_test <- function(DF, groupname = "group", idname = "id", eventname = "event
                     1:ntrials, 
                     .combine = "c", 
                     .packages = c("dplyr"),
-                    .export=c("permgp_fn", "SS_fn", "is_systematic")
+                    .export=c("permgp_fn", "SS_fn")
                 ) %dopar% {
                     
                     permgp_fn(DF, groupname, idname, eventname, systematic)
@@ -220,29 +133,3 @@ perm_test <- function(DF, groupname = "group", idname = "id", eventname = "event
     
 }
 
-# library(rstudioapi)
-# setwd(dirname(rstudioapi::getSourceEditorContext()$path))
-# 
-# library(readr)
-# 
-# DF <- read_csv("data.csv") %>%
-#     select(-any_of(c("...1", "X"))) %>%
-#     mutate(across(c(everything(), -event), factor)) %>%
-#     mutate()
-# 
-# group_name = "group"
-# id_name = "part_id"
-# event_name = "event"
-# 
-# test_p <- perm_test(
-#         DF, 
-#         groupname = group_name,
-#         idname = id_name,
-#         eventname = event_name,
-#         parallel = FALSE, 
-#         ntrials=1000, 
-#         ran_seed = 301031,
-#         systematic = TRUE
-#     )
-# 
-# print(test_p)
