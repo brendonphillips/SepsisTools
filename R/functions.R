@@ -17,20 +17,19 @@ is_systematic <- function(DT) {
 
 
 
+#' Test statistic calculation
+#'
+#' Calculate the test statistic (sum of square differences)
+#' @param event The scores to be parsed
+#' @param group The groups that the scores belong to
+#' @return The temperature in degrees Celsius
+#' @examples 
+#' "coming soon"
+#' @export
 SS_fn <- function(event, group){
         Overall_rate <- mean(event)
         gp_rates <- tapply(event,group,mean)
         SS <- sum((gp_rates-Overall_rate)^2)
-        # SS <- sum(abs(gp_rates)>=abs(Overall_rate))/1000
-        return(SS)
-    }
-
-
-SS_fn_testing <- function(event, group){
-        Overall_rate <- mean(event)
-        gp_rates <- tapply(event,group,mean)
-        SS <- sum((gp_rates-Overall_rate)^2)
-        # SS <- sum(abs(gp_rates)>=abs(Overall_rate))/1000
         return(SS)
     }
 
