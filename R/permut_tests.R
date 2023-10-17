@@ -134,6 +134,7 @@ events_to_num <- function(list_, zero_reference = NaN, ...) {
 #' 
 #' @returns The test statistic after even groups have been permuted
 #' 
+#' @importFrom magrittr `%>%`
 #' @importFrom dplyr select
 #' @importFrom dplyr mutate
 #' @importFrom dplyr right_join
