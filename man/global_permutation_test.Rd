@@ -10,7 +10,7 @@ global_permutation_test(
   id_name = "id",
   event_name = "event",
   ntrials = 1000,
-  parallel = TRUE,
+  parallel = FALSE,
   ranseed = NaN,
   systematic = TRUE,
   ...

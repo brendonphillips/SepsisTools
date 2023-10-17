@@ -4,7 +4,7 @@ setwd("C:/Users/brendon phillips/Documents/GitHub/rothlab_permtest/")
 
 library(devtools)
 
-# detach("package:SepsisTools", unload = TRUE)
+detach("package:SepsisTools", unload = TRUE)
 devtools::install_github("brendonphillips/SepsisTools", ref="main", force=TRUE)
 
 library(SepsisTools)
@@ -17,5 +17,6 @@ perm <- global_permutation_test(
     group_name = "group",
     id_name = "part_id",
     event_name = "event",
+    parallel = TRUE
 )
 

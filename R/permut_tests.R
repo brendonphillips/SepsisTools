@@ -193,6 +193,7 @@ permgp_fn <- function(data_, group_name, id_name, systematic) {
 #' 
 #' @return The p value of the test statistic (sum-of-square-differences)
 #' 
+#' @importFrom doParallel registerDoParallel
 #' @importFrom parallel makeCluster
 #' @importFrom parallel detectCores
 #' @importFrom parallel stopCluster
@@ -203,7 +204,7 @@ permgp_fn <- function(data_, group_name, id_name, systematic) {
 #' @export
 global_permutation_test <- function(data_, group_name = "group", id_name = "id", 
                              event_name = "event", ntrials = 1000, 
-                             parallel = TRUE, ranseed = NaN, systematic = TRUE, 
+                             parallel = FALSE, ranseed = NaN, systematic = TRUE, 
                              ...) {
     
     if (!is.na(ranseed) & is.numeric(ranseed)) {
