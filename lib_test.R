@@ -1,5 +1,7 @@
 rm(list = ls())
 
+setwd("C:/Users/brendon phillips/Documents/GitHub/rothlab_permtest/")
+
 library(devtools)
 
 detach("package:SepsisTools", unload = TRUE)

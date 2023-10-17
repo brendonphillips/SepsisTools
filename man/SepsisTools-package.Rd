@@ -9,13 +9,13 @@
 Code related to the SEPSIS project (2023-)
 }
 \author{
-\strong{Maintainer}: Phillips Brendon \email{brendon.phillips@sickkids.ca}
+\strong{Maintainer}: Brendon Phillips \email{brendon.phillips@sickkids.ca}
 
 Other contributors:
 \itemize{
-  \item Heasley Cole \email{cole.heasley@sickkids.ca} [contributor]
-  \item Pullenayegum Eleanor \email{eleanor.pullenayegum@sickkids.ca} [contributor, translator]
-  \item Roth Dan \email{daniel.roth@sickkids.ca} [contributor]
+  \item Cole Heasley \email{cole.heasley@sickkids.ca} [contributor]
+  \item Eleanor Pullenayegum \email{eleanor.pullenayegum@sickkids.ca} [contributor, translator]
+  \item Dan Roth \email{daniel.roth@sickkids.ca} [contributor]
 }
 
 }
