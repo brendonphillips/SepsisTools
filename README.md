@@ -59,8 +59,3 @@ function to permute the groups
 ### `uniquify_staffer`
 
 
-usethis::edit_r_environ()
-GITHUBTOKEN=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
-
- devtools::install_github("brendinho/SepsisTools")
-
