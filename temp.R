@@ -39,3 +39,33 @@ is_systematic <- function(DT) {
 #' # 
 #' # tapply(events, groups, mean)
 #' # mean(events)
+#' 
+#' # library(rstudioapi)
+# setwd(dirname(rstudioapi::getSourceEditorContext()$path))
+# 
+# library(readr)
+# 
+# DF <- read_csv("data.csv") %>%
+#     select(-any_of(c("...1", "X"))) %>%
+#     mutate(across(c(everything(), -event), factor)) %>%
+#     mutate()
+# 
+# group_name = "group"
+# id_name = "part_id"
+# event_name = "event"
+# 
+# test_p <- perm_test(
+#         DF, 
+#         groupname = group_name,
+#         idname = id_name,
+#         eventname = event_name,
+#         parallel = FALSE, 
+#         ntrials=1000, 
+#         ran_seed = 301031,
+#         systematic = TRUE
+#     )
+# 
+# print(test_p)
+
+
+

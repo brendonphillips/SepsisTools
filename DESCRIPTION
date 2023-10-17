@@ -2,14 +2,15 @@ Package: SepsisTools
 Type: Package
 Version: 0.0.1.0
 Authors@R: c(
-    person("Phillips", "Brendon", email = "brendon.phillips@sickkids.ca", role = c("aut", "cre")),
-    person("Heasley", "Cole", email = "cole.heasley@sickkids.ca", role = "ctb"),
-    person("Pullenayegum", "Eleanor", email = "eleanor.pullenayegum@sickkids.ca", role = c("ctb", "trl")),
-    person("Roth", "Dan", email = "daniel.roth@sickkids.ca", role = "ctb"))
+    person("Brendon", "Phillips", email = "brendon.phillips@sickkids.ca", role = c("aut", "cre")),
+    person("Cole", "Heasley", email = "cole.heasley@sickkids.ca", role = "ctb"),
+    person("Eleanor", "Pullenayegum", email = "eleanor.pullenayegum@sickkids.ca", role = c("ctb", "trl")),
+    person("Dan", "Roth", email = "daniel.roth@sickkids.ca", role = "ctb"))
 Title: SepsisTools
 Description: Code related to the SEPSIS project (2023-)
 Depends: R (>= 4.1),
 Imports: dplyr,
-    doParallel
+    doParallel,
+    magrittr
 Encoding: UTF-8
 RoxygenNote: 7.2.3

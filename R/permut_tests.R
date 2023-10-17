@@ -13,6 +13,7 @@ options(dplyr.summarise.inform = FALSE)
 #' 
 #' @example examples/perm_test_statistic_example.R
 #' 
+#' @importFrom(magrittr,"%>%")
 #' @importFrom dplyr tibble
 #' @importFrom dplyr mutate
 #' @importFrom dplyr group_by
@@ -302,3 +303,4 @@ step_down_test <- function(first, second) {
     return(NaN)
 }
 
+checking the commmit .. README not updating
