@@ -8,9 +8,10 @@ Authors@R: c(
     person("Dan", "Roth", email = "daniel.roth@sickkids.ca", role = "ctb"))
 Title: SepsisTools
 Description: Code related to the SEPSIS project (2023-)
-Depends: R (>= 4.1),
-Imports: dplyr,
-    doParallel,
-    magrittr
+Depends: 
+    R (>= 4.1),
+Imports: 
+    dplyr,
+    doParallel
 Encoding: UTF-8
 RoxygenNote: 7.2.3
