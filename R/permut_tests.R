@@ -130,16 +130,13 @@ events_to_num <- function(list_, zero_reference = NaN, ...) {
 #' @returns The test statistic after even groups have been permuted
 #' 
 #' @importFrom magrittr `%>%`
-#' @importFrom dplyr select
-#' @importFrom dplyr mutate
-#' @importFrom dplyr right_join
-#' @importFrom dplyr tibble
+#' @importFrom dplyr select mutate right_join tibble join_by
 #' 
 #' @examples "coming soon"
 #' 
-permgp_fn <- function(data_, group_name, id_name, systematic) {
+permgp_fn <- function(data_, group_name, id_name, event_name, systematic) {
     
-  if (systematic) {
+  if (systematic == TRUE) {
       
     data_perm <- data_ %>%
     tibble %>%
@@ -154,8 +151,7 @@ permgp_fn <- function(data_, group_name, id_name, systematic) {
       right_join(
         data_ %>% select(-all_of(c(group_name))),
         by = join_by(!!as.name(id_name))
-      ) %>%
-      mutate(tematic(data_perm))
+      )
 
   } else {
 
@@ -165,8 +161,6 @@ permgp_fn <- function(data_, group_name, id_name, systematic) {
         size = nrow(.),
         replace = FALSE)
       )
-
-    # print(is_systematic(data_perm))
   }
 
   teststat_perm <- perm_test_statistic(
@@ -216,7 +210,7 @@ global_permutation_test <- function(data_, group_name = "group", id_name = "id",
         data_[[group_name]]
     )
     
-    if (parallel | (ntrials > 1000)) {
+    if (parallel) {
         
         permCluster <- makeCluster(max(detectCores()-2, 1), type = "PSOCK")
         registerDoParallel(permCluster)

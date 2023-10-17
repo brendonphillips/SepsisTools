@@ -4,7 +4,7 @@
 \alias{permgp_fn}
 \title{Permutation test helper}
 \usage{
-permgp_fn(data_, group_name, id_name, systematic)
+permgp_fn(data_, group_name, id_name, event_name, systematic)
 }
 \arguments{
 \item{data_}{data frame with at least three columns: group, id and event}

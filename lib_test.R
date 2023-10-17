@@ -17,6 +17,9 @@ perm <- global_permutation_test(
     group_name = "group",
     id_name = "part_id",
     event_name = "event",
-    parallel = TRUE
+    systematic = TRUE,
+    ntrials = 10000,
+    parallel = TRUE,
+    ranseed = 20000
 )
 
