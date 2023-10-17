@@ -14,7 +14,7 @@ options(dplyr.summarise.inform = FALSE)
 #' @example examples/perm_test_statistic_example.R
 #' 
 #' @importFrom magrittr %>%
-#' @importFrom dplyr tibble mutate group_by summarise ungroup pull
+#' @importFrom dplyr tibble mutate group_by summarise ungroup pull n
 #'
 #' @export
 perm_test_statistic <- function(events, groups) {
