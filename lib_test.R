@@ -1,5 +1,9 @@
+rm(list = ls())
+
 library(devtools)
-devtools::install_github("brendonphillips/SepsisTools")
+
+detach("package:SepsisTools", unload = TRUE)
+devtools::install_github("brendonphillips/SepsisTools", ref="main", force=TRUE)
 
 library(SepsisTools)
 library(data.table)

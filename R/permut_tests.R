@@ -302,5 +302,3 @@ pairwise_permutation_tests <- function(first, second, third) {
 step_down_test <- function(first, second) {
     return(NaN)
 }
-
-checking the commmit .. README not updating
