@@ -14,7 +14,7 @@ permutation test in the file `rothlab_permtest`. The code in this file may be
 updated, but the interface will not be changed (as much as possible).
 
 # Install
-Install the package as `devtools::install("brendonphillips/SepsisTools")` (please install the `devtools` package if you haven't already downloaded it).
+Install the package as `devtools::github_install("brendonphillips/SepsisTools", ref = "main", force = TRUE)` (please install the `devtools` package if you haven't already downloaded it).
 
 -----
 ## Dependencies
