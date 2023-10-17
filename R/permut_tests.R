@@ -13,7 +13,7 @@ options(dplyr.summarise.inform = FALSE)
 #' 
 #' @example examples/perm_test_statistic_example.R
 #' 
-#' @importFrom magrittr "%>%"
+#' @importFrom magrittr %>%
 #' @importFrom dplyr tibble mutate group_by summarise ungroup pull
 #'
 #' @export
