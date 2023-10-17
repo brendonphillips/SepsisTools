@@ -13,7 +13,7 @@ options(dplyr.summarise.inform = FALSE)
 #' 
 #' @example examples/perm_test_statistic_example.R
 #' 
-#' @importFrom(magrittr,"%>%")
+#' @importFrom magritty `%>%`
 #' @importFrom dplyr tibble
 #' @importFrom dplyr mutate
 #' @importFrom dplyr group_by
