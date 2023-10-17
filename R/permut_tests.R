@@ -194,10 +194,8 @@ permgp_fn <- function(data_, group_name, id_name, systematic) {
 #' @return The p value of the test statistic (sum-of-square-differences)
 #' 
 #' @importFrom doParallel registerDoParallel
-#' @importFrom parallel makeCluster
-#' @importFrom parallel detectCores
-#' @importFrom parallel stopCluster
-#' @importFrom foreach foreach
+#' @importFrom parallel makeCluster detectCores stopCluster
+#' @importFrom foreach foreach %do% %dopar%
 #' 
 #' @examples "coming soon"
 #' 
