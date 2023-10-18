@@ -1,5 +1,9 @@
 options(dplyr.summarise.inform = FALSE)
 
+#' @importFrom magrittr %>%
+#' @export
+magrittr::`%>%`
+
 #' Test statistic calculation
 #'
 #' Calculate the test statistic (sum of square differences) between group means
