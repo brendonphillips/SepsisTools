@@ -1,6 +1,6 @@
 #' String encoder
 #' 
-#' encodes any string into a standardised SKxxxxx format
+#' encodes any string into a standardised RTxxxxx format
 #' 
 #' @importFrom magrittr %>%
 #' @importFrom dplyr tibble rowwise mutate left_join
@@ -16,10 +16,10 @@
 #' 
 #' @return a data frame / list with ID_col replaced with new Sepsis IDs, with pre-encoding column appended to the end with Sys.time suffix
 #' 
-#' @example examples/fix_chrw_ids_example.R
+#' @example examples/encode_staffer_ids_example.R
 #' 
 #' @export
-encode_IDs <- function(data_, ..., ID_col = NA, out_col_name = NA, seed = NaN, na.fill = FALSE) {
+encode_staffer_IDs <- function(data_, ..., ID_col = NA, out_col_name = NA, seed = NaN, na.fill = FALSE) {
     
     encode_ID_help <- function(the_ID) {
         
@@ -107,30 +107,5 @@ encode_IDs <- function(data_, ..., ID_col = NA, out_col_name = NA, seed = NaN, n
     }
 
     return(final_obj)
-    
-}
-
-data("staffer_dictionary")
-
-#' Uniquify Staffer IDs
-#'
-#' A lookup junction to get unique IDs for each of the icddr,b staffers (field, lab, etc) that worked on the SEPSIS project and recorded information for any of the encounters
-#'
-#' @param data_ data frame or list with the raw IDs to be uniquified
-#' @param ID_col the name of the column with the IDs to be uniquified (if `data_` is a table, ignored otherwise)
-#' #' @param ID_col the name of the column with IDs to be encoded (ignored if .data is a list)
-#' @param out_col_name the name of the column with the encoded IDs (if NA, the source column is overwritten and a column with a default name will store the original information)
-#' @param ... currently ignored
-#' 
-#' @importFrom magrittr %>%
-#' @importFrom dplyr mutate left_join
-#' @importFrom lazyeval lazy_dots
-#' 
-#' @return a list/data frame with the unique RothLab ID to allow tracing of activity throughout the encounters
-#' 
-#' @examples "coming soon"
-#' 
-#' @export
-uniquify_chrw <- function(data_, ..., ID_col = NA, out_col_name = NA) {
     
 }
