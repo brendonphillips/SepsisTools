@@ -6,14 +6,14 @@
 \usage{
 global_permutation_test(
   data_,
+  ...,
   group_name = "group",
   id_name = "id",
   event_name = "event",
-  ntrials = 1000,
+  ntrials = 10000,
   parallel = FALSE,
   ranseed = NaN,
-  systematic = TRUE,
-  ...
+  systematic = TRUE
 )
 }
 \arguments{
@@ -27,11 +27,13 @@ global_permutation_test(
 
 \item{ntrials}{the number of permutation tests in the ensemble}
 
-\item{parallel}{True/False whether the permutations shosuld be run in parallel for speed}
+\item{parallel}{True/False whether the permutations shosuld be run in
+parallel for speed}
 
 \item{ranseed}{fixed random seed, for reproducibility}
 
-\item{systematic}{True/False whether the groups are to be grouped (similar to the original entries) or totally random}
+\item{systematic}{True/False whether the groups are to be grouped (similar
+to the original entries) or totally random}
 }
 \value{
 The p value of the test statistic (sum-of-square-differences)

@@ -13,7 +13,8 @@ permgp_fn(data_, group_name, id_name, event_name, systematic)
 
 \item{id_name}{name of the `id` column}
 
-\item{systematic}{whether the groups should be permuted consistently with the id, or not}
+\item{systematic}{whether the groups should be permuted consistently with 
+the id, or not}
 }
 \value{
 The test statistic after even groups have been permuted
@@ -23,5 +24,4 @@ helper function for permutation test
 }
 \examples{
 "coming soon"
-
 }

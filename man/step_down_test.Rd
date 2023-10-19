@@ -19,5 +19,5 @@ Function to carry through the step-down procedure after the permutation test
 }
 \examples{
 "coming soon"
- 
+
 }

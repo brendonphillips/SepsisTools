@@ -4,23 +4,25 @@
 \alias{get_table}
 \title{File Reader}
 \usage{
-get_table(file_name, ..., FOLDER_ = NA)
+get_table(file_name, ..., folder_ = NA)
 }
 \arguments{
-\item{file_name}{a string to be matched exactly (with or without file extension)}
+\item{file_name}{a string to be matched exactly (with or without file
+extension)}
 
 \item{...}{currently ignored}
 
-\item{FOLDER_}{the top-level folder in which to start searching for the file}
+\item{folder_}{the top-level folder in which to start searching for the file}
 }
 \value{
-a tibble with the data read from the file matching the string expression given
+a tibble with the data read from the file matching the string
+expression given
 }
 \description{
-Finds a file in the current folder (`getwd()`) and all immediate subfolders 
-matching the string given (no extension necessary). If a file is found, it is 
-read according to its extension; if multiple files matching the string are 
-found, a warning is given and the first matching file found is read and 
+Finds a file in the current folder (`getwd()`) and all immediate subfolders
+matching the string given (no extension necessary). If a file is found, it
+is read according to its extension; if multiple files matching the string
+are found, a warning is given and the first matching file found is read and
 returned. If no matching file is found, and empty tibble is returned.
 }
 \examples{

@@ -24,29 +24,32 @@ of various types (string, numeric, boolean) without preprocessing by the user
 }
 \examples{
 # example of numerical vector
-EX_NUM <- c(1,5,2,2,4,3,3,3,5,2,3,1,4,2,4)
+ex_num <- c(1, 5, 2, 2, 4, 3, 3, 3, 5, 2, 3, 1, 4, 2, 4)
 
 # no zero reference given -> returns the values given
-events_to_num(EX_NUM)
+events_to_num(ex_num)
 # zero reference given (and it's in the vector) -> 0/1 vector
-events_to_num(EX_NUM, 4)
+events_to_num(ex_num, 4)
 # zero reference given (even as a string) -> 0/1 vector
-events_to_num(EX_NUM, "4")
-# zero reference given, not in the vector -> first element of the vector taken as reference
-events_to_num(EX_NUM, 6)
-# zero reference given as string, not in the vector -> first element of the vector taken as reference
-events_to_num(EX_NUM, "6")
+events_to_num(ex_num, "4")
+# zero reference given, not in the vector -> first element of the vector
+# taken as reference
+events_to_num(ex_num, 6)
+# zero reference given as string, not in the vector -> first element of the
+# vector taken as reference
+events_to_num(ex_num, "6")
 
 # example of boolean vector
-EX_BOOL <- c(TRUE,FALSE,FALSE,TRUE,FALSE,TRUE,FALSE,TRUE,TRUE,TRUE,FALSE,FALSE,FALSE,TRUE,TRUE)
+ex_bool <- c(TRUE, FALSE, FALSE, TRUE, FALSE, TRUE, FALSE, TRUE, TRUE,
+             TRUE, FALSE, FALSE, FALSE, TRUE, TRUE)
 
 # # no zero reference given -> original vector returned
-# events_to_num(EX_BOOL)
+# events_to_num(ex_bool)
 # zero reference 
-# events_to_num(EX_BOOL, 4)
-# events_to_num(EX_BOOL, "4")
-# events_to_num(EX_BOOL, TRUE)
-# events_to_num(EX_BOOL, "TRUE")
+# events_to_num(ex_bool, 4)
+# events_to_num(ex_bool, "4")
+# events_to_num(ex_bool, TRUE)
+# events_to_num(ex_bool, "TRUE")
 
 # paste0("c(", paste(sample(1:5, 15, replace = TRUE), collapse = ","), ")")
 # paste0("c(", paste(sample(c(T, F), 15, replace = TRUE), collapse = ","), ")")
