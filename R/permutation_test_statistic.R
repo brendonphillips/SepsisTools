@@ -32,8 +32,8 @@ perm_test_statistic <- function(events, groups) {
             all_mean = unique(all_mean)
         ) %>%
         ungroup() %>%
-        summarise(hehe = sum((gp_mean - all_mean)**2)) %>%
-        pull()
+        summarise(final_res = sum((gp_mean - all_mean)**2)) %>%
+        pull(final_res) 
     
     return(test_stat)
 }
