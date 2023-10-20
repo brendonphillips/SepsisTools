@@ -12,8 +12,9 @@
 #' @param ranseed fixed random seed, for reproducibility
 #' @param systematic True/False whether the groups are to be grouped (similar
 #' to the original entries) or totally random
+#' @param na_fill if any entries in the input table have empty groups, fill them with a generated group name, or filter those rows out
 #'
-#' @return The p value of the test statistic (sum-of-square-differences)
+#' @return A list giving `$p` (the p-value) and `$error` (the Monte-Carlo error) of the calculation, `$N` the number of test statistics calculated
 #'
 #' @importFrom doParallel registerDoParallel
 #' @importFrom parallel makeCluster detectCores stopCluster
@@ -30,7 +31,12 @@ global_permutation_test <- function(data_,
                                     ntrials = 10000,
                                     parallel = FALSE,
                                     ranseed = NaN,
-                                    systematic = TRUE) {
+                                    systematic = TRUE, 
+                                    na_fill = FALSE,
+                                    check_ = FALSE) {
+    
+    warning("Note that the output of this function has changed. it is now a list giving $p (the p-value), $stddev (the standard deviation) $error (the Monte-Carlo error) and $N (the number of test statistics calculated). Please see documentation.")
+    
     if (!is.na(ranseed) && is.numeric(ranseed)) {
         set.seed(ranseed)
     } else {
@@ -48,11 +54,16 @@ global_permutation_test <- function(data_,
         registerDoParallel(perm_cluster)
         
         teststat_null <- tryCatch({
-            foreach(1:max(ntrials, factorial(nrow(data_))),
+            foreach(1:min(ntrials, factorial(nrow(data_))),
                     .combine = "c",
                     .packages = c("dplyr"),
-                    .export=c("permgp_fn", "perm_test_statistic")) %dopar% {
-                        permgp_fn(data_, group_name, id_name, event_name, systematic)
+                    .export=c("get_p_value", "permute_groups", "perm_test_statistic")) %dopar% {
+                        get_p_value(data_, 
+                                    group_name = group_name, 
+                                    id_name = id_name, 
+                                    event_name = event_name, 
+                                    systematic = systamatic, 
+                                    na_fill = na_fill)
                     }
         },
         error = function(e) {
@@ -60,7 +71,7 @@ global_permutation_test <- function(data_,
             return(NaN)
         },
         warning = function(w) {
-            print("warnings encountered")
+            print(sprintf("warnings encountered: %s"))
         }
         )
         
@@ -71,16 +82,30 @@ global_permutation_test <- function(data_,
         teststat_null <- array(data = NaN, dim = ntrials)
         
         for (it in 1:ntrials) {
-            teststat_null[it] <- permgp_fn(data_,
-                                           group_name,
-                                           id_name,
-                                           event_name,
-                                           systematic)
+            teststat_null[it] <- get_p_value(data_,
+                                           group_name = group_name,
+                                           id_name = id_name,
+                                           event_name = event_name,
+                                           ranseed = ranseed,
+                                           systematic = systematic,
+                                           na_fill = na_fill)
         }
     }
     
-    p_value <- mean(teststat_null >= teststat, na.rm = TRUE)
+    if (check_) {
+        # check whether the members of teststat_null are different from each other; can go wrong when we don;t use the perm_group_ column when calculating the test statistic. make an upper triangular matrix out of the values and calculate the determinant. test whether the determinant is consistently e-close to the nth power of randomly chosen element of the vector. if so, the elements on the vector are all the same 
+    }
     
-    return(p_value)
+    p_value <- mean(teststat_null >= teststat, na.rm = TRUE)
+    mc_error <- sqrt(p_value*(1-p_value)/ntrials)
+    num_res <- length(teststat_null)
+    # sd_ <- sd(teststat_null >= teststat, na.rm = TRUE)
+    
+    return(list(
+        p = p_value, 
+        # stddev = sd_,
+        error = mc_error, 
+        N = num_res
+        ))
     
 }
