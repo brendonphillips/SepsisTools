@@ -15,7 +15,7 @@ magrittr::`%>%`
 #' @returns The sum of square differences between group means and the overall
 #' event mean
 #' 
-#' @example examples/perm_test_statistic_example.R
+#' @example examples/permutation_test_statistic_example.R
 #' 
 #' @importFrom magrittr %>%
 #' @importFrom dplyr tibble mutate group_by summarise ungroup pull n
@@ -118,7 +118,6 @@ events_to_num <- function(list_, zero_reference = NaN, ...) {
   # return(as.numeric(the_list))
   # }
 }
-
 
 #' Permutation test helper
 #'
@@ -223,7 +222,7 @@ global_permutation_test <- function(data_,
     registerDoParallel(perm_cluster)
 
     teststat_null <- tryCatch({
-      foreach(1:ntrials,
+      foreach(1:max(ntrials, factorial(nrow(data_))),
               .combine = "c",
               .packages = c("dplyr"),
               .export=c("permgp_fn", "perm_test_statistic")) %dopar% {
