@@ -3,8 +3,6 @@
 #' function to carry out the group permutations
 #' 
 #' @param data_ data frame with at least three columns: group, id and event. this is created by the global_permutation_test function call
-#' @param group_name name of the `group` column
-#' @param id_name name of the `id` column
 #' @param systematic whether the groups should be permuted consistently with 
 #' the id, or not
 #'
@@ -15,7 +13,9 @@
 #'
 #' @examples "coming soon"
 #' ## standard col names, id_no, group_no, column_no
-permute_groups_ <- function(data_, systematic) {
+#' 
+#' @export
+permute_groups <- function(data_, systematic) {
     
     if (systematic == TRUE) {
         
@@ -38,7 +38,7 @@ permute_groups_ <- function(data_, systematic) {
         
         data_perm <- data_ %>%
             mutate(
-                group_perm = sample(
+                perm_group_ = sample(
                     x = group_,
                     size = nrow(.),
                     replace = FALSE
