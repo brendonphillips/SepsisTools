@@ -3,14 +3,14 @@ rm(list = ls())
 setwd("C:/Users/brendon phillips/Documents/GitHub/rothlab_permtest/")
 
 library(devtools)
-# library(dplyr)
+library(dplyr)
 
 # detach("package:SepsisTools", unload = TRUE)
 # devtools::install_github("brendonphillips/SepsisTools", ref="main", force=TRUE)
 
 # devtools::document(); devtools::load_all()
 # 
-# library(SepsisTools)
+library(SepsisTools)
 
 devtools::document()
 devtools::load_all()
@@ -123,13 +123,13 @@ na_fill <- TRUE
 #     event_name = event_name,
 #     systematic = TRUE,
 #     na_fill = TRUE)
-
+# 
 # haha <- global_permutation_test(class_performance,
 #                     group_name = group_name,
 #                     id_name = id_name,
 #                     event_name = event_name,
-#                     ntrials = 100,
-#                     parallel = FALSE,
+#                     ntrials = 10000,
+#                     parallel = TRUE,
 #                     ranseed = NaN,
 #                     systematic = TRUE,
 #                     na_fill = FALSE)
@@ -138,7 +138,8 @@ haha <- pairwise_permutation_tests(class_performance,
                                    group_name = group_name,
                                    id_name = id_name,
                                    event_name = event_name,
-                                   ntrials = 100,
+                                   ntrials = 10,
+                                   reference_group = "placebo",
                                    parallel = FALSE)
 # troubleshoot parallel processing problems here
 print(haha)
