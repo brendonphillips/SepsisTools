@@ -18,7 +18,7 @@ pairwise_permutation_tests <- function(data_,
                                        group_name = "group",
                                        id_name = "id",
                                        event_name = "event",
-                                       ntrials = 3, # 10000,
+                                       ntrials = 100,
                                        parallel = FALSE,
                                        ranseed = NaN,
                                        systematic = TRUE,
@@ -42,16 +42,46 @@ pairwise_permutation_tests <- function(data_,
             na_fill = na_fill
         )
         
-        message_text <- sprintf(paste0("Results of Global Permutation Test:\n", 
-                                "N obervations : %s, N groups: %s, N test statistics calculated: %s\n",
-                                "Distinct groups: (%s)\n",
-                                "p-value = %s, Monte-Carlo error = %s"),
-                                nrow(data_), length(unique(class_performance[["class_teacher"]])), gt_results$N,
-                                paste(unique(class_performance[["class_teacher"]]), collapse=", "),
-                                gt_results$p, round(gt_results$error, 4)
-                                )
+        data_groups <- unique(data_[[group_name]])
+        
+        message_text <- paste0(
+            "\nPreliminary Global Test:", 
+            sprintf("\n\nNumber of obervations : %s.", nrow(data_)),
+            sprintf("\n\nGroups (N=%s): [%s].", 
+                    length(data_groups),
+                    paste(data_groups, collapse=", ")
+            ),
+            "\n\n",
+            data_ %>% 
+                rename(group_ := group_name) %>%
+                group_by(group_) %>% 
+                summarise(N = n()) %>%
+                mutate(text_ = sprintf(
+                    "\tGroup %s (%s): %s observations,", 
+                    1:n(), group_, N)
+                ) %>% 
+                pull(text_) %>% 
+                paste0(collapse="\n"),
+            ".",
+            sprintf(
+                paste0(
+                    "\n\nGlobal Test:",
+                    "\n\n\tNumber of test statistics calculated: %s.",
+                    "\n\tp-value = %s, Monte-Carlo error = %s."
+                ),
+                gt_results$N, gt_results$p, round(gt_results$error, 6)
+            ),
+            "\n\n"
+        )
         
         message(message_text)
+        
+        if (! reference_group %in% data_groups) {
+            stop(sprintf(
+                "Requested reference group `%s` is not among the groups in the %s data frame. Aborting pairwise permutation test.", 
+                reference_group, deparse(substitute(data_))
+            ))
+        }
         
     }
 
