@@ -12,6 +12,20 @@ Depends:
     R (>= 4.1),
 Imports: 
     dplyr,
-    doParallel
+    doParallel,
+    doSNOW
 Encoding: UTF-8
 RoxygenNote: 7.2.3
+Collate: 
+    'SepsisTools-package.R'
+    'encode_staffer_ids.R'
+    'event_to_num.R'
+    'permute_groups.R'
+    'get_p_value.R'
+    'get_table.R'
+    'global_permutation_test.R'
+    'magrittr.R'
+    'pairwise_permutation_test.R'
+    'permgp_fn.R'
+    'permutation_test_statistic.R'
+    'uniquify_staffer_ids.R'
