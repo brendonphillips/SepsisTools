@@ -16,7 +16,7 @@
 #'
 #' @return A list giving `$p` (the p-value) and `$error` (the Monte-Carlo error) of the calculation, `$N` the number of test statistics calculated
 #'
-#' @importFrom doParallel registerDoParallel
+#' @importFrom doSNOW registerDoSNOW
 #' @importFrom parallel makeCluster detectCores stopCluster
 #' @importFrom foreach foreach %do% %dopar%
 #'
@@ -35,7 +35,7 @@ global_permutation_test <- function(data_,
                                     na_fill = FALSE,
                                     check_ = FALSE) {
     
-    warning("Note that the output of this function has changed. it is now a list giving $p (the p-value), $stddev (the standard deviation) $error (the Monte-Carlo error) and $N (the number of test statistics calculated). Please see documentation.")
+    # warning("Note that the output of this function has changed. it is now a list giving $p (the p-value), $stddev (the standard deviation) $error (the Monte-Carlo error) and $N (the number of test statistics calculated). Please see documentation.")
     
     if (!is.na(ranseed) && is.numeric(ranseed)) {
         set.seed(ranseed)
@@ -50,31 +50,52 @@ global_permutation_test <- function(data_,
     
     if (parallel) {
         
-        perm_cluster <- makeCluster(max(detectCores() - 2, 1), type = "PSOCK")
-        registerDoParallel(perm_cluster)
+        pool_size <- max(detectCores() - 2, 1)
+        
+        message(sprintf(
+            "\nExecuting global permutation tests in parallel: %s workers",
+            pool_size
+        ))
+        
+        # perm_cluster <- makeCluster(max(detectCores() - 2, 1), type = "PSOCK")
+        # registerDoParallel(perm_cluster)
+        
+        perm_cluster <- makeCluster(pool_size)
+        registerDoSNOW(perm_cluster)
+        
+        prog_bar <- txtProgressBar(max = ntrials, style = 3)
+        progress <- function(n) setTxtProgressBar(prog_bar, n)
+        opts <- list(progress = progress)
+        
         
         teststat_null <- tryCatch({
+            
             foreach(1:min(ntrials, factorial(nrow(data_))),
                     .combine = "c",
+                    .export=c("get_p_value"),
                     .packages = c("dplyr"),
-                    .export=c("get_p_value", "permute_groups", "perm_test_statistic")) %dopar% {
-                        get_p_value(data_, 
-                                    group_name = group_name, 
-                                    id_name = id_name, 
-                                    event_name = event_name, 
-                                    systematic = systamatic, 
+                    .options.snow = opts) %dopar% {
+                        
+                        get_p_value(data_,
+                                    group_name = group_name,
+                                    id_name = id_name,
+                                    event_name = event_name,
+                                    systematic = systamatic,
                                     na_fill = na_fill)
+                        
+                        
                     }
         },
         error = function(e) {
-            print(sprintf("Error encountered during parallel execution: %s", e))
+            message(sprintf("\nError encountered during parallel execution: %s", e))
             return(NaN)
         },
         warning = function(w) {
-            print(sprintf("warnings encountered: %s"))
+            message(sprintf("\nWarning() encountered during parallel execution: %s", w))
         }
         )
         
+        message("\n")
         stopCluster(perm_cluster)
         
     } else {
@@ -99,13 +120,11 @@ global_permutation_test <- function(data_,
     p_value <- mean(teststat_null >= teststat, na.rm = TRUE)
     mc_error <- sqrt(p_value*(1-p_value)/ntrials)
     num_res <- length(teststat_null)
-    # sd_ <- sd(teststat_null >= teststat, na.rm = TRUE)
     
     return(list(
         p = p_value, 
-        # stddev = sd_,
         error = mc_error, 
         N = num_res
-        ))
+    ))
     
 }
