@@ -10,7 +10,7 @@ pairwise_permutation_tests(
   group_name = "group",
   id_name = "id",
   event_name = "event",
-  ntrials = 3,
+  ntrials = 100,
   parallel = FALSE,
   ranseed = NaN,
   systematic = TRUE,
