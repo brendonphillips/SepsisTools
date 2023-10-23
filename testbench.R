@@ -128,11 +128,12 @@ na_fill <- TRUE
 #                     group_col_name = group_col_name,
 #                     id_col_name = id_col_name,
 #                     event_col_name = event_col_name,
-#                     ntrials = 10000,
+#                     ntrials = 100,
 #                     parallel = TRUE,
 #                     ranseed = NaN,
 #                     systematic = TRUE,
-#                     na_fill = FALSE)
+#                     na_fill = FALSE,
+#                     verbose = TRUE)
 
 haha <- pairwise_permutation_tests(class_performance,
                                    group_col_name = group_col_name,
@@ -140,8 +141,9 @@ haha <- pairwise_permutation_tests(class_performance,
                                    event_col_name = event_col_name,
                                    ntrials = 1000,
                                    reference_group = "placebo",
-                                   parallel = FALSE,
-                                   global_test_first = TRUE)
+                                   parallel = TRUE,
+                                   global_test_first = TRUE,
+                                   verbose = FALSE)
 # troubleshoot parallel processing problems here
 print(haha)
 
