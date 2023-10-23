@@ -18,7 +18,8 @@ pairwise_permutation_tests(
   backsolve = FALSE,
   reference_group = "placebo",
   step_down_procedure = "HB",
-  global_test_first = TRUE
+  global_test_first = TRUE,
+  verbose = FALSE
 )
 }
 \arguments{

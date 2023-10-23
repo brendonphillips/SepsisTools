@@ -15,7 +15,8 @@ global_permutation_test(
   ranseed = NaN,
   systematic = TRUE,
   na_fill = FALSE,
-  check_ = FALSE
+  check_ = FALSE,
+  verbose = FALSE
 )
 }
 \arguments{
