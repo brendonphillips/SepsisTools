@@ -7,9 +7,9 @@
 global_permutation_test(
   data_,
   ...,
-  group_name = "group",
-  id_name = "id",
-  event_name = "event",
+  group_col_name = "group",
+  id_col_name = "id",
+  event_col_name = "event",
   ntrials = 10000,
   parallel = FALSE,
   ranseed = NaN,
@@ -21,11 +21,11 @@ global_permutation_test(
 \arguments{
 \item{data_}{data frame with at least 3 columns: event, id, group}
 
-\item{group_name}{the name of the (IP ) column}
+\item{group_col_name}{the name of the (IP ) column}
 
-\item{id_name}{name of the (participant) id column}
+\item{id_col_name}{name of the (participant) id column}
 
-\item{event_name}{name of the event column}
+\item{event_col_name}{name of the event column}
 
 \item{ntrials}{the number of permutation tests in the ensemble}
 

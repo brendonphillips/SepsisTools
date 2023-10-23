@@ -7,9 +7,9 @@
 pairwise_permutation_tests(
   data_,
   ...,
-  group_name = "group",
-  id_name = "id",
-  event_name = "event",
+  group_col_name = "group",
+  id_col_name = "id",
+  event_col_name = "event",
   ntrials = 100,
   parallel = FALSE,
   ranseed = NaN,

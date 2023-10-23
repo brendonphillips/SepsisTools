@@ -19,9 +19,9 @@ data("class_performance")
 
 # perm <- global_permutation_test(
 #     haha,
-#     group_name = "group",
-#     id_name = "part_id",
-#     event_name = "event",
+#     group_col_name = "group",
+#     id_col_name = "part_id",
+#     event_col_name = "event",
 #     systematic = TRUE,
 #     ntrials = 10000,
 #     parallel = TRUE,
@@ -89,19 +89,19 @@ temp <- tibble(
 
 
 
-group_name <- "class_teacher"
-id_name <- "student_id"
-event_name <- "passed_exam_num"
+group_col_name <- "class_teacher"
+id_col_name <- "student_id"
+event_col_name <- "passed_exam_num"
 na_fill <- TRUE
 
 
 # hehe <- class_performance %>% 
-#     select(all_of(c(id_name, group_name, event_name))) %>%
+#     select(all_of(c(id_col_name, group_col_name, event_col_name))) %>%
 #     mutate(.sep.entry.id = 1:n()) %>%
 #     rename(
-#         id_ = !!id_name,
-#         group_ = !!group_name,
-#         event_ = !!event_name
+#         id_ = !!id_col_name,
+#         group_ = !!group_col_name,
+#         event_ = !!event_col_name
 #     ) %>%
 #     mutate(
 #         group_ = case_when(
@@ -111,23 +111,23 @@ na_fill <- TRUE
 #     )
 
 # haha <- get_p_value(class_performance,
-#     group_name = group_name,
-#     id_name = id_name,
-#     event_name = event_name,
+#     group_col_name = group_col_name,
+#     id_col_name = id_col_name,
+#     event_col_name = event_col_name,
 #     systematic = TRUE,
 #     na_fill = TRUE)
 
 # haha <- permgp_fn(class_performance,
-#     group_name = group_name,
-#     id_name = id_name,
-#     event_name = event_name,
+#     group_col_name = group_col_name,
+#     id_col_name = id_col_name,
+#     event_col_name = event_col_name,
 #     systematic = TRUE,
 #     na_fill = TRUE)
 # 
 # haha <- global_permutation_test(class_performance,
-#                     group_name = group_name,
-#                     id_name = id_name,
-#                     event_name = event_name,
+#                     group_col_name = group_col_name,
+#                     id_col_name = id_col_name,
+#                     event_col_name = event_col_name,
 #                     ntrials = 10000,
 #                     parallel = TRUE,
 #                     ranseed = NaN,
@@ -135,12 +135,13 @@ na_fill <- TRUE
 #                     na_fill = FALSE)
 
 haha <- pairwise_permutation_tests(class_performance,
-                                   group_name = group_name,
-                                   id_name = id_name,
-                                   event_name = event_name,
-                                   ntrials = 10,
+                                   group_col_name = group_col_name,
+                                   id_col_name = id_col_name,
+                                   event_col_name = event_col_name,
+                                   ntrials = 1000,
                                    reference_group = "placebo",
-                                   parallel = FALSE)
+                                   parallel = FALSE,
+                                   global_test_first = TRUE)
 # troubleshoot parallel processing problems here
 print(haha)
 

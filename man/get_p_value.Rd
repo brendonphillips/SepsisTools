@@ -7,9 +7,9 @@
 get_p_value(
   data_,
   ...,
-  group_name = "group_",
-  id_name = "id_",
-  event_name = "event_",
+  group_col_name = "group_",
+  id_col_name = "id_",
+  event_col_name = "event_",
   systematic = FALSE,
   na_fill = TRUE
 )
@@ -17,9 +17,9 @@ get_p_value(
 \arguments{
 \item{data_}{data frame with at least three columns: group, id and event}
 
-\item{group_name}{name of the `group` column}
+\item{group_col_name}{name of the `group` column}
 
-\item{id_name}{name of the `id` column}
+\item{id_col_name}{name of the `id` column}
 
 \item{systematic}{whether the groups should be permuted consistently with 
 the id, or not}

@@ -3,8 +3,8 @@
 #' Standardises the input data table and retrieves the test statistic (p value)
 #' 
 #' @param data_ data frame with at least three columns: group, id and event
-#' @param group_name name of the `group` column
-#' @param id_name name of the `id` column
+#' @param group_col_name name of the `group` column
+#' @param id_col_name name of the `id` column
 #' @param systematic whether the groups should be permuted consistently with 
 #' the id, or not
 #'
@@ -18,9 +18,9 @@
 #' @export
 permgp_fn <- function(data_, 
                       ..., 
-                      group_name = "group_", 
-                      id_name = "id_", 
-                      event_name = "event_", 
+                      group_col_name = "group_", 
+                      id_col_name = "id_", 
+                      event_col_name = "event_", 
                       systematic = FALSE,
                       na_fill = TRUE) {
     
@@ -28,9 +28,9 @@ permgp_fn <- function(data_,
     
     temp <- get_p_value(data_,
                         ...,
-                        group_name = group_name,
-                        id_name = id_name,
-                        event_name = event_name,
+                        group_col_name = group_col_name,
+                        id_col_name = id_col_name,
+                        event_col_name = event_col_name,
                         systematic = TRUE,
                         na_fill = TRUE)
     

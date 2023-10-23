@@ -3,9 +3,9 @@
 #' Carry through the permutation test
 #'
 #' @param data_ data frame with at least 3 columns: event, id, group
-#' @param group_name the name of the (IP ) column
-#' @param id_name name of the (participant) id column
-#' @param event_name name of the event column
+#' @param group_col_name the name of the (IP ) column
+#' @param id_col_name name of the (participant) id column
+#' @param event_col_name name of the event column
 #' @param ntrials the number of permutation tests in the ensemble
 #' @param parallel True/False whether the permutations shosuld be run in
 #' parallel for speed
@@ -25,9 +25,9 @@
 #' @export
 global_permutation_test <- function(data_,
                                     ...,
-                                    group_name = "group",
-                                    id_name = "id",
-                                    event_name = "event",
+                                    group_col_name = "group",
+                                    id_col_name = "id",
+                                    event_col_name = "event",
                                     ntrials = 10000,
                                     parallel = FALSE,
                                     ranseed = NaN,
@@ -44,8 +44,8 @@ global_permutation_test <- function(data_,
     }
     
     teststat <- perm_test_statistic(
-        data_[[event_name]],
-        data_[[group_name]]
+        data_[[event_col_name]],
+        data_[[group_col_name]]
     )
     
     if (parallel) {
@@ -77,9 +77,9 @@ global_permutation_test <- function(data_,
                     .options.snow = opts) %dopar% {
                         
                         get_p_value(data_,
-                                    group_name = group_name,
-                                    id_name = id_name,
-                                    event_name = event_name,
+                                    group_col_name = group_col_name,
+                                    id_col_name = id_col_name,
+                                    event_col_name = event_col_name,
                                     systematic = systamatic,
                                     na_fill = na_fill)
                         
@@ -104,9 +104,9 @@ global_permutation_test <- function(data_,
         
         for (it in 1:ntrials) {
             teststat_null[it] <- get_p_value(data_,
-                                           group_name = group_name,
-                                           id_name = id_name,
-                                           event_name = event_name,
+                                           group_col_name = group_col_name,
+                                           id_col_name = id_col_name,
+                                           event_col_name = event_col_name,
                                            ranseed = ranseed,
                                            systematic = systematic,
                                            na_fill = na_fill)

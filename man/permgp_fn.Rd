@@ -7,9 +7,9 @@
 permgp_fn(
   data_,
   ...,
-  group_name = "group_",
-  id_name = "id_",
-  event_name = "event_",
+  group_col_name = "group_",
+  id_col_name = "id_",
+  event_col_name = "event_",
   systematic = FALSE,
   na_fill = TRUE
 )
@@ -17,9 +17,9 @@ permgp_fn(
 \arguments{
 \item{data_}{data frame with at least three columns: group, id and event}
 
-\item{group_name}{name of the `group` column}
+\item{group_col_name}{name of the `group` column}
 
-\item{id_name}{name of the `id` column}
+\item{id_col_name}{name of the `id` column}
 
 \item{systematic}{whether the groups should be permuted consistently with 
 the id, or not}
@@ -35,17 +35,17 @@ data("class_performance")
 
 # calculating the p vakue from the permutation test with the included class_performance data set 
 get_p_value(class_performance,
-          group_name = group_name,
-          id_name = id_name,
-          event_name = event_name,
+          group_col_name = group_col_name,
+          id_col_name = id_col_name,
+          event_col_name = event_col_name,
           systematic = TRUE,
           na_fill = TRUE)
 
 # deprecated function; currently an alias for the get_p_value function 
 permgp_fn(class_performance,
-          group_name = group_name,
-          id_name = id_name,
-          event_name = event_name,
+          group_col_name = group_col_name,
+          id_col_name = id_col_name,
+          event_col_name = event_col_name,
           systematic = TRUE,
           na_fill = TRUE)
 }

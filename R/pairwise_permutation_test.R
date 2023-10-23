@@ -83,6 +83,8 @@ pairwise_permutation_tests <- function(data_,
             ))
         }
         
+        for(other_group in )
+        
     }
 
     return(0)
