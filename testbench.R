@@ -89,10 +89,6 @@ temp <- tibble(
 
 
 
-group_col_name <- "class_teacher"
-id_col_name <- "student_id"
-event_col_name <- "passed_exam_num"
-na_fill <- TRUE
 
 
 # hehe <- class_performance %>% 
@@ -110,12 +106,12 @@ na_fill <- TRUE
 #         )
 #     )
 
-# haha <- get_p_value(class_performance,
-#     group_col_name = group_col_name,
-#     id_col_name = id_col_name,
-#     event_col_name = event_col_name,
-#     systematic = TRUE,
-#     na_fill = TRUE)
+haha <- get_p_value(class_performance,
+    group_col_name = group_col_name,
+    id_col_name = id_col_name,
+    event_col_name = event_col_name,
+    systematic = TRUE,
+    na_fill = TRUE)
 
 # haha <- permgp_fn(class_performance,
 #     group_col_name = group_col_name,
@@ -135,17 +131,19 @@ na_fill <- TRUE
 #                     na_fill = FALSE,
 #                     verbose = TRUE)
 
-haha <- pairwise_permutation_tests(class_performance,
-                                   group_col_name = group_col_name,
-                                   id_col_name = id_col_name,
-                                   event_col_name = event_col_name,
-                                   ntrials = 1000,
-                                   # reference_group = "placebo",
-                                   parallel = TRUE,
-                                   global_test_first = TRUE,
-                                   verbose = FALSE)
+# haha <- pairwise_permutation_tests(class_performance,
+#                                    group_col_name = group_col_name,
+#                                    id_col_name = id_col_name,
+#                                    event_col_name = event_col_name,
+#                                    ntrials = 100,
+#                                    reference_group = "Roth",
+#                                    parallel = FALSE,
+#                                    global_test_first = TRUE,
+#                                    verbose = FALSE,
+#                                    step_down_prodecures = c("BH"),
+#                                    na_fill = TRUE)
 # troubleshoot parallel processing problems here
-print(haha)
+# print(haha)
 
 
 
@@ -157,13 +155,44 @@ print(haha)
 
 
 
+# lol <- haha %>%
+#     map(as_tibble) %>% 
+#     reduce(bind_rows) %>% 
+#     arrange() %>%
+#     cbind(
+#         sapply(
+#             p.adjust.methods %>% .[. != "none"], 
+#             \(x) p.adjust(.$p, x)
+#         ) %>% 
+#             as.data.frame %>% 
+#             tibble %>% 
+#             rename_with(~paste0("p_adj_", .x))
+#     )
+    
 
 
 
+group_col_name <- "class_teacher"
+id_col_name <- "student_id"
+event_col_name <- "passed_exam_num"
+na_fill <- TRUE
 
 
-
-
+standardised_table <- class_performance %>%
+    select(all_of(c(id_col_name, group_col_name, event_col_name))) %>%
+    mutate(.sep.entry.id = 1:n()) %>%
+    rename(
+        id_ = !!id_col_name,
+        group_ = !!group_col_name,
+        event_ = !!event_col_name
+    ) %>%
+    mutate(
+        group_ = case_when(
+            (na_fill) & is.na(group_) ~ ".NA_group",
+            TRUE ~ group_
+        )
+    ) %>%
+    subset(!is.na(group_))
 
 
 
