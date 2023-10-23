@@ -140,7 +140,7 @@ haha <- pairwise_permutation_tests(class_performance,
                                    id_col_name = id_col_name,
                                    event_col_name = event_col_name,
                                    ntrials = 1000,
-                                   reference_group = "placebo",
+                                   # reference_group = "placebo",
                                    parallel = TRUE,
                                    global_test_first = TRUE,
                                    verbose = FALSE)
