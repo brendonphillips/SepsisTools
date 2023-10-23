@@ -13,6 +13,7 @@
 #' @param systematic True/False whether the groups are to be grouped (similar
 #' to the original entries) or totally random
 #' @param na_fill if any entries in the input table have empty groups, fill them with a generated group name, or filter those rows out
+#' @param verbose TRUE/FALSE whether a completion message with stats should be printed to the screen whenever the permutation test ends. progress bar is printed in all cases.
 #'
 #' @return A list giving `$p` (the p-value) and `$error` (the Monte-Carlo error) of the calculation, `$N` the number of test statistics calculated
 #'
@@ -20,7 +21,7 @@
 #' @importFrom parallel makeCluster detectCores stopCluster
 #' @importFrom foreach foreach %do% %dopar%
 #'
-#' @examples "coming soon"
+#' @example examples/global_permutation_test_example.R
 #'
 #' @export
 global_permutation_test <- function(data_,
