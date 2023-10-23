@@ -33,7 +33,8 @@ global_permutation_test <- function(data_,
                                     ranseed = NaN,
                                     systematic = TRUE, 
                                     na_fill = FALSE,
-                                    check_ = FALSE) {
+                                    check_ = FALSE,
+                                    verbose = FALSE) {
     
     # warning("Note that the output of this function has changed. it is now a list giving $p (the p-value), $stddev (the standard deviation) $error (the Monte-Carlo error) and $N (the number of test statistics calculated). Please see documentation.")
     
@@ -47,6 +48,8 @@ global_permutation_test <- function(data_,
         data_[[event_col_name]],
         data_[[group_col_name]]
     )
+    
+    num_trials <- min(ntrials, factorial(nrow(data_)))
     
     if (parallel) {
         
@@ -63,14 +66,13 @@ global_permutation_test <- function(data_,
         perm_cluster <- makeCluster(pool_size)
         registerDoSNOW(perm_cluster)
         
-        prog_bar <- txtProgressBar(max = ntrials, style = 3)
+        prog_bar <- txtProgressBar(max = num_trials, style = 3)
         progress <- function(n) setTxtProgressBar(prog_bar, n)
         opts <- list(progress = progress)
         
-        
         teststat_null <- tryCatch({
             
-            foreach(1:min(ntrials, factorial(nrow(data_))),
+            foreach(1:num_trials,
                     .combine = "c",
                     .export=c("get_p_value"),
                     .packages = c("dplyr"),
@@ -81,7 +83,8 @@ global_permutation_test <- function(data_,
                                     id_col_name = id_col_name,
                                     event_col_name = event_col_name,
                                     systematic = systamatic,
-                                    na_fill = na_fill)
+                                    na_fill = na_fill,
+                                    verbose = verbose)
                         
                         
                     }
@@ -100,17 +103,26 @@ global_permutation_test <- function(data_,
         
     } else {
         
-        teststat_null <- array(data = NaN, dim = ntrials)
+        message("\nGlobal permutation tests: serial execution selected")
         
-        for (it in 1:ntrials) {
-            teststat_null[it] <- get_p_value(data_,
+        
+        teststat_null <- array(data = NaN, dim = num_trials)
+        
+        prog_bar = txtProgressBar(max = num_trials, initial = 0, style = 3)
+        
+        for (idx in 1:num_trials) {
+            setTxtProgressBar(prog_bar, idx)
+            teststat_null[idx] <- get_p_value(data_,
                                            group_col_name = group_col_name,
                                            id_col_name = id_col_name,
                                            event_col_name = event_col_name,
                                            ranseed = ranseed,
                                            systematic = systematic,
-                                           na_fill = na_fill)
+                                           na_fill = na_fill,
+                                           verbose = verbose)
         }
+        
+        message("\n")
     }
     
     if (check_) {
@@ -118,8 +130,46 @@ global_permutation_test <- function(data_,
     }
     
     p_value <- mean(teststat_null >= teststat, na.rm = TRUE)
-    mc_error <- sqrt(p_value*(1-p_value)/ntrials)
+    mc_error <- sqrt(p_value*(1-p_value)/num_trials)
     num_res <- length(teststat_null)
+    
+    data_groups <- unique(data_[[group_col_name]])
+    
+    if (verbose) {
+        
+        message_text <- paste0(
+            "\nGlobal Permutation Test:", 
+            sprintf("\n\nNumber of obervations : %s.", nrow(data_)),
+            sprintf("\n\nGroups (N=%s): [%s].", 
+                    length(data_groups),
+                    paste(data_groups, collapse=", ")
+            ),
+            "\n\n",
+            data_ %>% 
+                rename(group_ := group_col_name) %>%
+                group_by(group_) %>% 
+                summarise(N = n()) %>%
+                mutate(text_ = sprintf(
+                    "\tGroup %s (%s): %s observations,", 
+                    1:n(), group_, N)
+                ) %>% 
+                pull(text_) %>% 
+                paste0(collapse="\n"),
+            ".",
+            sprintf(
+                paste0(
+                    "\n\nTest Results:",
+                    "\n\n\tNumber of test statistics calculated: %s.",
+                    "\n\tp-value = %s, Monte-Carlo error = %s."
+                ),
+                num_res, p_value, round(mc_error, 6)
+            ),
+            "\n\n"
+        )
+        
+        message(message_text)
+        
+    }
     
     return(list(
         p = p_value, 
