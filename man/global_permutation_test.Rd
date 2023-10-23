@@ -39,6 +39,8 @@ parallel for speed}
 to the original entries) or totally random}
 
 \item{na_fill}{if any entries in the input table have empty groups, fill them with a generated group name, or filter those rows out}
+
+\item{verbose}{TRUE/FALSE whether a completion message with stats should be printed to the screen whenever the permutation test ends. progress bar is printed in all cases.}
 }
 \value{
 A list giving `$p` (the p-value) and `$error` (the Monte-Carlo error) of the calculation, `$N` the number of test statistics calculated
@@ -47,6 +49,21 @@ A list giving `$p` (the p-value) and `$error` (the Monte-Carlo error) of the cal
 Carry through the permutation test
 }
 \examples{
-"coming soon"
+# use the included class_performance data set for the example
+data("class_performance")
 
+# carry through the global permutation test
+res <- global_permutation_test(class_performance,
+                    group_col_name = group_col_name,
+                    id_col_name = id_col_name,
+                    event_col_name = event_col_name,
+                    ntrials = 100,
+                    parallel = TRUE,
+                    ranseed = NaN,
+                    systematic = TRUE,
+                    na_fill = FALSE,
+                    verbose = TRUE)
+
+# `res` is a list of three statistics
+res
 }
