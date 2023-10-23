@@ -52,17 +52,26 @@ global_permutation_test <- function(data_,
     
     num_trials <- min(ntrials, factorial(nrow(data_)))
     
+    data_groups <- unique(data_[[group_col_name]])
+    
+    permutation_test_type <- ifelse(
+        length(data_groups) > 2,
+        "Global", "Pairwise"
+    )
+    
+    competing_groups <- ifelse(
+        length(data_groups) > 2,
+        "all groups", paste(data_groups, collapse=" vs. ")
+    )
+    
     if (parallel) {
         
         pool_size <- max(detectCores() - 2, 1)
         
         message(sprintf(
-            "\nExecuting global permutation tests in parallel: %s workers",
-            pool_size
+            "\nExecuting %s Permutation Test (%s) in parallel: %s workers",
+            permutation_test_type, competing_groups, pool_size
         ))
-        
-        # perm_cluster <- makeCluster(max(detectCores() - 2, 1), type = "PSOCK")
-        # registerDoParallel(perm_cluster)
         
         perm_cluster <- makeCluster(pool_size)
         registerDoSNOW(perm_cluster)
@@ -104,7 +113,10 @@ global_permutation_test <- function(data_,
         
     } else {
         
-        message("\nGlobal permutation tests: serial execution selected")
+        message(sprintf(
+            "\n%s Permutation Test (%s): serial execution selected",
+            permutation_test_type, competing_groups
+        ))
         
         
         teststat_null <- array(data = NaN, dim = num_trials)
@@ -127,7 +139,12 @@ global_permutation_test <- function(data_,
     }
     
     if (check_) {
-        # check whether the members of teststat_null are different from each other; can go wrong when we don;t use the perm_group_ column when calculating the test statistic. make an upper triangular matrix out of the values and calculate the determinant. test whether the determinant is consistently e-close to the nth power of randomly chosen element of the vector. if so, the elements on the vector are all the same 
+        # check whether the members of teststat_null are different from each 
+        # other; can go wrong when we don;t use the perm_group_ column when 
+        # calculating the test statistic. make an upper triangular matrix out of 
+        # the values and calculate the determinant. test whether the determinant 
+        # is consistently e-close to the nth power of randomly chosen element of 
+        # the vector. if so, the elements on the vector are all the same 
     }
     
     p_value <- mean(teststat_null >= teststat, na.rm = TRUE)
@@ -139,8 +156,8 @@ global_permutation_test <- function(data_,
     if (verbose) {
         
         message_text <- paste0(
-            "\nGlobal Permutation Test:", 
-            sprintf("\n\nNumber of obervations : %s.", nrow(data_)),
+            sprintf("\n%s Permutation Test:", permutation_test_type),
+            sprintf("\n\nTotal number of obervations : %s.", nrow(data_)),
             sprintf("\n\nGroups (N=%s): [%s].", 
                     length(data_groups),
                     paste(data_groups, collapse=", ")
@@ -160,12 +177,12 @@ global_permutation_test <- function(data_,
             sprintf(
                 paste0(
                     "\n\nTest Results:",
-                    "\n\n\tNumber of test statistics calculated: %s.",
+                    "\n\tNumber of test statistics calculated: %s.",
                     "\n\tp-value = %s, Monte-Carlo error = %s."
                 ),
                 num_res, p_value, round(mc_error, 6)
             ),
-            "\n\n"
+            "\n\n***************"
         )
         
         message(message_text)
