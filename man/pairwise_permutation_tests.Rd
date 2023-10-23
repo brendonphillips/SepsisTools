@@ -17,9 +17,9 @@ pairwise_permutation_tests(
   na_fill = FALSE,
   backsolve = FALSE,
   reference_group = "placebo",
-  step_down_procedure = "HB",
+  step_down_procedures = c("BH"),
   global_test_first = TRUE,
-  verbose = FALSE
+  verbose = TRUE
 )
 }
 \arguments{
