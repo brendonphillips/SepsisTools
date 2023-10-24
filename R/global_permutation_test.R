@@ -2,30 +2,29 @@
 #'
 #' Carry through the permutation test
 #'
-#' @param data_ data frame with at least 3 columns: event, id, group
-#' @param group_col_name the name of the (IP ) column
+#' @param data_ data frame with at least 3 columns: event (yes/no/numerical describing what happened), id (unique id of the patient/participant), group (what trial/observation group they belonged to)
+#' @param group_col_name the name of the (IP) column
 #' @param id_col_name name of the (participant) id column
 #' @param event_col_name name of the event column
 #' @param ntrials the number of permutation tests in the ensemble
-#' @param parallel True/False whether the permutations shosuld be run in
+#' @param parallel True/False whether the permutations should be run in
 #' parallel for speed
-#' @param ranseed fixed random seed, for reproducibility
-#' @param systematic True/False whether the groups are to be grouped (similar
-#' to the original entries) or totally random
+#' @param ranseed possibility for using a fixed random seed, for reproducibility
+#' @param systematic True/False whether the groups are to be grouped or distributed totally randomly. For example, should all observations from Patient A in group (G1) be permuted to the same group (G2), or can they be sporead across permuted groups? The second would be in line with other prepackaged R libraries.
 #' @param na_fill if any entries in the input table have empty groups, fill
-#' them with a generated group name, or filter those rows out
+#' them with a generated group name (.NA_group), or filter those rows out
 #' @param verbose TRUE/FALSE whether a completion message with stats should be
-#' printed to the screen whenever the permutation test ends. progress bar is
+#' printed to the screen whenever the permutation test ends. A progress bar is
 #' printed in all cases.
 #'
 #' @return A list giving `$p` (the p-value) and `$error` (the Monte-Carlo
-#' error) of the calculation, `$N` the number of test statistics calculated
+#' error) of the calculation, `$N_perms` the number of permutations performed/test statistics calculated, `$N_trials` the total number of observations for which the groups were permuted.
 #'
 #' @importFrom doSNOW registerDoSNOW
 #' @importFrom parallel makeCluster detectCores stopCluster
 #' @importFrom foreach foreach %do% %dopar%
 #'
-#' @example examples/global_permutation_test_example.R
+#' @examples "coming soon"
 #'
 #' @export
 global_permutation_test <- function(data_,
