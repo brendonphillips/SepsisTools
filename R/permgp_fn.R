@@ -22,17 +22,18 @@ permgp_fn <- function(data_,
                       id_col_name = "id_", 
                       event_col_name = "event_", 
                       systematic = FALSE,
-                      na_fill = TRUE) {
+                      na_fill = TRUE,
+                      ranseed = NA) {
     
     warning("Function 'pergp_fn' is deprecated and will soon be removed. Replace function name with 'get_p_value', with no other change to the function signature. Please see documentation for an added `na_fill` parameter.")
     
     temp <- get_p_value(data_,
-                        ...,
                         group_col_name = group_col_name,
                         id_col_name = id_col_name,
                         event_col_name = event_col_name,
-                        systematic = TRUE,
-                        na_fill = TRUE)
+                        systematic = systematic,
+                        na_fill = na_fill,
+                        ranseed = ranseed)
     
     return(temp)
 }
