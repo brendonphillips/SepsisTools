@@ -20,9 +20,9 @@ global_permutation_test(
 )
 }
 \arguments{
-\item{data_}{data frame with at least 3 columns: event, id, group}
+\item{data_}{data frame with at least 3 columns: event (yes/no/numerical describing what happened), id (unique id of the patient/participant), group (what trial/observation group they belonged to)}
 
-\item{group_col_name}{the name of the (IP ) column}
+\item{group_col_name}{the name of the (IP) column}
 
 \item{id_col_name}{name of the (participant) id column}
 
@@ -30,44 +30,28 @@ global_permutation_test(
 
 \item{ntrials}{the number of permutation tests in the ensemble}
 
-\item{parallel}{True/False whether the permutations shosuld be run in
+\item{parallel}{True/False whether the permutations should be run in
 parallel for speed}
 
-\item{ranseed}{fixed random seed, for reproducibility}
+\item{ranseed}{possibility for using a fixed random seed, for reproducibility}
 
-\item{systematic}{True/False whether the groups are to be grouped (similar
-to the original entries) or totally random}
+\item{systematic}{True/False whether the groups are to be grouped or distributed totally randomly. For example, should all observations from Patient A in group (G1) be permuted to the same group (G2), or can they be sporead across permuted groups? The second would be in line with other prepackaged R libraries.}
 
 \item{na_fill}{if any entries in the input table have empty groups, fill
-them with a generated group name, or filter those rows out}
+them with a generated group name (.NA_group), or filter those rows out}
 
 \item{verbose}{TRUE/FALSE whether a completion message with stats should be
-printed to the screen whenever the permutation test ends. progress bar is
+printed to the screen whenever the permutation test ends. A progress bar is
 printed in all cases.}
 }
 \value{
 A list giving `$p` (the p-value) and `$error` (the Monte-Carlo
-error) of the calculation, `$N` the number of test statistics calculated
+error) of the calculation, `$N_perms` the number of permutations performed/test statistics calculated, `$N_trials` the total number of observations for which the groups were permuted.
 }
 \description{
 Carry through the permutation test
 }
 \examples{
-# use the included class_performance data set for the example
-data("class_performance")
+"coming soon"
 
-# carry through the global permutation test
-res <- global_permutation_test(class_performance,
-                    group_col_name = group_col_name,
-                    id_col_name = id_col_name,
-                    event_col_name = event_col_name,
-                    ntrials = 100,
-                    parallel = TRUE,
-                    ranseed = NaN,
-                    systematic = TRUE,
-                    na_fill = FALSE,
-                    verbose = TRUE)
-
-# `res` is a list of three statistics
-res
 }
