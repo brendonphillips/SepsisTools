@@ -110,24 +110,24 @@ na_fill <- TRUE
 #                     group_col_name = group_col_name,
 #                     id_col_name = id_col_name,
 #                     event_col_name = event_col_name,
-#                     ntrials = 10000,
+#                     ntrials = 1000,
 #                     parallel = TRUE,
 #                     ranseed = NaN,
 #                     systematic = TRUE,
 #                     na_fill = TRUE,
 #                     verbose = TRUE)
 
-haha <- pairwise_permutation_tests(class_performance,
-                                   group_col_name = group_col_name,
-                                   id_col_name = id_col_name,
-                                   event_col_name = event_col_name,
-                                   ntrials = 10000,
-                                   reference_group = "Roth",
-                                   parallel = TRUE,
-                                   global_test_first = TRUE,
-                                   verbose = TRUE,
-                                   step_down_prodecures = c("BH"),
-                                   na_fill = TRUE)
+# haha <- pairwise_permutation_tests(class_performance,
+#                                    group_col_name = group_col_name,
+#                                    id_col_name = id_col_name,
+#                                    event_col_name = event_col_name,
+#                                    ntrials = 1000,
+#                                    compare_to = "Roth",
+#                                    parallel = TRUE,
+#                                    global_test_first = TRUE,
+#                                    verbose = TRUE,
+#                                    p_adj_meths = c("BH", "holm"),
+#                                    na_fill = TRUE)
 
 
 
