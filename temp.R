@@ -50,15 +50,15 @@ is_systematic <- function(DT) {
 #     mutate(across(c(everything(), -event), factor)) %>%
 #     mutate()
 # 
-# group_name = "group"
-# id_name = "part_id"
-# event_name = "event"
+# group = "group"
+# id_col_name = "part_id"
+# event_col_name = "event"
 # 
 # test_p <- perm_test(
 #         DF, 
-#         groupname = group_name,
-#         idname = id_name,
-#         eventname = event_name,
+#         group_col_name = group_col_name,
+#         idname = id_col_name,
+#         eventname = event_col_name,
 #         parallel = FALSE, 
 #         ntrials=1000, 
 #         ran_seed = 301031,
