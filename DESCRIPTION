@@ -1,6 +1,6 @@
 Package: SepsisTools
 Type: Package
-Version: 0.0.1.0
+Version: 0.2.0
 Authors@R: c(
     person("Brendon", "Phillips", email = "brendon.phillips@sickkids.ca", role = c("aut", "cre")),
     person("Cole", "Heasley", email = "cole.heasley@sickkids.ca", role = "ctb"),
