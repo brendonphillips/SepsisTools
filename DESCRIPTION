@@ -1,6 +1,6 @@
 Package: SepsisTools
 Type: Package
-Version: 0.0.1.0
+Version: 0.2.0
 Authors@R: c(
     person("Brendon", "Phillips", email = "brendon.phillips@sickkids.ca", role = c("aut", "cre")),
     person("Cole", "Heasley", email = "cole.heasley@sickkids.ca", role = "ctb"),
@@ -17,3 +17,17 @@ Imports:
     lazyeval
 Encoding: UTF-8
 RoxygenNote: 7.2.3
+Collate: 
+    'SepsisTools-package.R'
+    'standard_table.R'
+    'encode_staffer_ids.R'
+    'event_to_num.R'
+    'permute_groups.R'
+    'get_p_value.R'
+    'get_table.R'
+    'global_permutation_test.R'
+    'magrittr.R'
+    'pairwise_permutation_tests.R'
+    'permgp_fn.R'
+    'permutation_test_statistic.R'
+    'uniquify_staffer_ids.R'
