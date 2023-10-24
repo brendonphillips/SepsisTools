@@ -5,6 +5,7 @@ setwd("C:/Users/brendon phillips/Documents/GitHub/rothlab_permtest/")
 library(devtools)
 library(roxygen2)
 library(dplyr)
+library(readr)
 
 # detach("package:SepsisTools", unload = TRUE)
 # devtools::install_github("brendonphillips/SepsisTools", ref="main", force=TRUE)
@@ -25,6 +26,33 @@ id_col_name <- "student_id"
 event_col_name <- "passed_exam_num"
 na_fill <- TRUE
 
+## generate the staffer_dictionary
+
+# base_table <- fread('base_table.csv')
+
+# exact_match_mangles <- fread("exact_match_mangles.csv")
+
+# staffer_dictionary <- exact_match_mangles %>%
+#     encode_staffer_ids(id_col = chrw_name_mangled, out_col_name = "encoding", seed = 455742) %>%
+#     select(chrw_ids, encoding) %>%
+#     unique %>%
+#     separate(chrw_ids, sep = "; ", into = toupper(letters)) %>%
+#     select_if(~! all(is.na(.))) %>%
+#     pivot_longer(!encoding, names_to = "class", values_to = "chrw_id") %>%
+#     subset(!is.na(chrw_id) & chrw_id!="") %>%
+#     select(-class) %>%
+#     relocate(chrw_id) %>%
+#     group_by(chrw_id) %>%
+#     slice_min(encoding) %>%
+#     ungroup()
+
+# staffer_dictionary %>% 
+#     group_by(encoding) %>% 
+#     summarise(N = n(), ids = paste(chrw_id, collapse = "; ")) %>% 
+#     filter(N > 1)
+
+# save(staffer_dictionary, file = "data/staffer_dictionary.rda")
+# fwrite(staffer_dictionary, file = "data/staffer_dictionary.csv")
 
 # haha <- permgp_fn(class_performance,
 #                   group_col_name = group_col_name,
@@ -32,7 +60,7 @@ na_fill <- TRUE
 #                   event_col_name = event_col_name,
 #                   systematic = TRUE,
 #                   na_fill = TRUE,
-#                   ranseed = 5)
+#                   ranseed = 6)
 # print(haha)
 
 # haha <- get_p_value(class_performance,
@@ -41,7 +69,7 @@ na_fill <- TRUE
 #                     event_col_name = event_col_name,
 #                     systematic = TRUE,
 #                     na_fill = TRUE,
-#                     ranseed = 5)
+#                     ranseed = 6)
 # print(haha)
 
 # hehe <- class_performance %>%
@@ -82,7 +110,7 @@ na_fill <- TRUE
 #                     group_col_name = group_col_name,
 #                     id_col_name = id_col_name,
 #                     event_col_name = event_col_name,
-#                     ntrials = 1000,
+#                     ntrials = 10000,
 #                     parallel = TRUE,
 #                     ranseed = NaN,
 #                     systematic = TRUE,
@@ -93,18 +121,17 @@ haha <- pairwise_permutation_tests(class_performance,
                                    group_col_name = group_col_name,
                                    id_col_name = id_col_name,
                                    event_col_name = event_col_name,
-                                   ntrials = 100,
+                                   ntrials = 10000,
                                    reference_group = "Roth",
-                                   parallel = FALSE,
+                                   parallel = TRUE,
                                    global_test_first = TRUE,
-                                   verbose = FALSE,
+                                   verbose = TRUE,
                                    step_down_prodecures = c("BH"),
                                    na_fill = TRUE)
 
 
 
 # I'' back here working on the library that they've asked me to do
-
 
 
 
