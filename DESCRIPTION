@@ -12,6 +12,8 @@ Depends:
     R (>= 4.1),
 Imports: 
     dplyr,
-    doParallel
+    doParallel,
+    doSNOW,
+    lazyeval
 Encoding: UTF-8
 RoxygenNote: 7.2.3
