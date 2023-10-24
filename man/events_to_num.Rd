@@ -13,7 +13,7 @@ events_to_num(list_, zero_reference = NaN, ...)
 value 1; if list_ is numeric and no `zero_reference` is given, the numerical
 values in the list will be used}
 
-\item{..}{currently ignored}
+\item{...}{currently ignored}
 }
 \value{
 A numerical vector; either 0/1 or -Inf:Inf, depending on parameters

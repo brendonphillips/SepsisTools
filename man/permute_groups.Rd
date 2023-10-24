@@ -7,9 +7,10 @@
 permute_groups(data_, systematic)
 }
 \arguments{
-\item{data_}{data frame with at least three columns: group, id and event. this is created by the global_permutation_test function call}
+\item{data_}{data frame with at least three columns: group, id and event.
+this is created by the global_permutation_test function call}
 
-\item{systematic}{whether the groups should be permuted consistently with 
+\item{systematic}{whether the groups should be permuted consistently with
 the id, or not}
 }
 \value{

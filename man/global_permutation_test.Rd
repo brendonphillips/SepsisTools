@@ -38,12 +38,16 @@ parallel for speed}
 \item{systematic}{True/False whether the groups are to be grouped (similar
 to the original entries) or totally random}
 
-\item{na_fill}{if any entries in the input table have empty groups, fill them with a generated group name, or filter those rows out}
+\item{na_fill}{if any entries in the input table have empty groups, fill
+them with a generated group name, or filter those rows out}
 
-\item{verbose}{TRUE/FALSE whether a completion message with stats should be printed to the screen whenever the permutation test ends. progress bar is printed in all cases.}
+\item{verbose}{TRUE/FALSE whether a completion message with stats should be
+printed to the screen whenever the permutation test ends. progress bar is
+printed in all cases.}
 }
 \value{
-A list giving `$p` (the p-value) and `$error` (the Monte-Carlo error) of the calculation, `$N` the number of test statistics calculated
+A list giving `$p` (the p-value) and `$error` (the Monte-Carlo
+error) of the calculation, `$N` the number of test statistics calculated
 }
 \description{
 Carry through the permutation test
