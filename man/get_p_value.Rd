@@ -11,7 +11,8 @@ get_p_value(
   id_col_name = "id_",
   event_col_name = "event_",
   systematic = FALSE,
-  na_fill = TRUE
+  na_fill = TRUE,
+  ranseed = NA
 )
 }
 \arguments{
@@ -21,8 +22,10 @@ get_p_value(
 
 \item{id_col_name}{name of the `id` column}
 
-\item{systematic}{whether the groups should be permuted consistently with 
+\item{systematic}{whether the groups should be permuted consistently with
 the id, or not}
+
+\item{ranseed}{}
 }
 \value{
 The test statistic after even groups have been permuted

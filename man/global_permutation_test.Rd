@@ -7,9 +7,9 @@
 global_permutation_test(
   data_,
   ...,
-  group_col_name = "group",
-  id_col_name = "id",
-  event_col_name = "event",
+  group_col_name = "group_",
+  id_col_name = "id_",
+  event_col_name = "event_",
   ntrials = 10000,
   parallel = FALSE,
   ranseed = NaN,

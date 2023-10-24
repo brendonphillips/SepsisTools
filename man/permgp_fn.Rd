@@ -11,7 +11,8 @@ permgp_fn(
   id_col_name = "id_",
   event_col_name = "event_",
   systematic = FALSE,
-  na_fill = TRUE
+  na_fill = TRUE,
+  ranseed = NA
 )
 }
 \arguments{
