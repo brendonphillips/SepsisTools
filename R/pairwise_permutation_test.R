@@ -7,17 +7,20 @@
 #'
 #' @return returning p values from pairwise tests
 #'
+#' @importFrom plyr rbind.fill
 #' @importFrom dplyr tibble
 #' @importFrom stats p.adjust
+#' @importFrom purrr reduce map
+#' @importFrom data.table rbindlist
 #'
 #' @examples "coming soon"
 #'
 #' @export
 pairwise_permutation_tests <- function(data_,
                                        ...,
-                                       group_col_name = "group",
-                                       id_col_name = "id",
-                                       event_col_name = "event",
+                                       group_col_name = "group_",
+                                       id_col_name = "id_",
+                                       event_col_name = "event_",
                                        ntrials = 100,
                                        parallel = FALSE,
                                        ranseed = NaN,
@@ -29,40 +32,48 @@ pairwise_permutation_tests <- function(data_,
                                        global_test_first = TRUE,
                                        verbose = TRUE) {
     
-    if (global_test_first) {
-        
-        # # if global test is done first, always send the message to the user
-        # gt_results <- global_permutation_test(
-        #     data_,
-        #     group_col_name = group_col_name,
-        #     id_col_name = id_col_name,
-        #     event_col_name = event_col_name,
-        #     ntrials = ntrials,
-        #     parallel = parallel,
-        #     ranseed = ranseed,
-        #     systematic = systematic,
-        #     na_fill = na_fill,
-        #     verbose = TRUE
-        # )
-    }
-    
-    
     data_groups <- unique(data_[[group_col_name]])
     if (! reference_group %in% data_groups) {
         stop(sprintf(
-            "Requested reference group `%s` is not among the groups in the %s data frame. Aborting pairwise permutation test.", 
+            "Requested reference group `%s` is not among the groups in the %s data frame. Aborting pairwise permutation test.",
             reference_group, deparse(substitute(data_))
         ))
     }
     other_groups <- data_groups %>% .[. != reference_group] %>% unique
-    
+
     pairwise_test_results <- list()
     
-    for (comparing_to in other_groups) {
+    standard_data <- standard_table(data_,
+                                     group_col_name = group_col_name,
+                                     id_col_name = id_col_name,
+                                     event_col_name = event_col_name,
+                                     na_fill = na_fill)
+    
+    nested_list_to_tibble <- function(dat) {
         
+        return(dat %>% map(as_tibble) %>% reduce(bind_rows))
+    }
+    
+    gt_results <- NA
+    
+    if (global_test_first) {
+        
+        # no further arguments needed with the standardised table
+        gt_results <- global_permutation_test(
+            standard_data,
+            ntrials = ntrials,
+            parallel = parallel,
+            ranseed = ranseed,
+            systematic = systematic,
+            verbose = TRUE
+        )
+    }
+    
+    for (comparing_to in other_groups) {
+
         pairwise_test_results[[comparing_to]] <- global_permutation_test(
             # janky code to do the group filtering based on the unique name given
-            # will change 
+            # will change
             data_ %>%
                 rename(temp_group = !!group_col_name) %>%
                 subset(temp_group %in% c(comparing_to, reference_group)) %>%
@@ -85,12 +96,11 @@ pairwise_permutation_tests <- function(data_,
         mutate(
             group_name = other_groups,
             reference_group = reference_group
-        ) # %>%
-        # relocate(sym(group_name), N, p, error)
-    
+        )
 
     family_corrections <- step_down_procedures %>%
         .[. %in% p.adjust.methods & . != "none"]
+
 
     if (length(family_corrections) > 0) {
 
@@ -101,13 +111,24 @@ pairwise_permutation_tests <- function(data_,
             as.data.frame %>%
             tibble %>%
             rename_with(~paste0("p_adj_", .x)) %>%
-            cbind(final_res)
+            bind_cols(final_res)
     }
+    
+    if (is.list(gt_results)) {
+
+        final_res <- gt_results %>%
+            list() %>%
+            nested_list_to_tibble %>%
+            mutate(
+                group_name = "Global",
+                reference_group = as.character(NA)
+            ) %>%
+            bind_rows(final_res)
+    }
+
+    final_res <- final_res %>%
+        relocate(group_name, N_obs, N_trials, p, error)
 
     return(final_res)
 
 }
-
-# of only 2 groups, change message to paireiser test
-# if only a single group, thenthrow error
-# column names in lower case to avoid error
