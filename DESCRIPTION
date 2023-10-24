@@ -14,7 +14,8 @@ Imports:
     dplyr,
     doParallel,
     doSNOW,
-    lazyeval
+    lazyeval,
+    plyr
 Encoding: UTF-8
 RoxygenNote: 7.2.3
 Collate: 
