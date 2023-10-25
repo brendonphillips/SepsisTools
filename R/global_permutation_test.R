@@ -2,29 +2,44 @@
 #'
 #' Carry through the permutation test
 #'
-#' @param data_ data frame with at least 3 columns: event (yes/no/numerical describing what happened), id (unique id of the patient/participant), group (what trial/observation group they belonged to)
-#' @param group_col_name the name of the (IP) column
-#' @param id_col_name name of the (participant) id column
-#' @param event_col_name name of the event column
-#' @param ntrials the number of permutation tests in the ensemble
-#' @param parallel True/False whether the permutations should be run in
-#' parallel for speed
-#' @param ranseed possibility for using a fixed random seed, for reproducibility
-#' @param systematic True/False whether the groups are to be grouped or distributed totally randomly. For example, should all observations from Patient A in group (G1) be permuted to the same group (G2), or can they be sporead across permuted groups? The second would be in line with other prepackaged R libraries.
-#' @param na_fill if any entries in the input table have empty groups, fill
-#' them with a generated group name (.NA_group), or filter those rows out
+#' @param data_ the data set, with at least three features: event (what 
+#' happened), id (who were they), group (what intervention were they 
+#' administered)
+#' @param ... currently ignored
+#' @param group_col_name the name of the column with `group` information 
+#' @param id_col_name the name of the column with participant/patient `id` 
+#' information
+#' @param event_col_name the name of the column with the event (data type 
+#' castable to numerical)
+#' @param ntrials the number of permutation tests performed (and test 
+#' statistics calculated). currently capped at N!
+#' @param parallel True/False whether the permutations/test statistics are to 
+#' be calculated serially or in parallel (uses the R snow package) 
+#' @param ranseed a set random seed to be used for the permutations (used for 
+#' reproducibility)
+#' @param systematic True/False whether the groups are to be grouped or 
+#' distributed totally randomly. For example, should all observations from 
+#' Patient A in group (G1) be permuted to the same group (G2), or can they be 
+#' spread across permuted groups? The first option (TRUE) is endorsed by 
+#' Eleanor, the second option (FALSE) would be in line with other R packages 
+#' (`coin`, for example).
+#' @param na_fill if any entries in the input table have empty groups, either 
+#' (TRUE) fill them with a generated group name .NA_group, or (FALSE) filter 
+#' those rows out.
 #' @param verbose TRUE/FALSE whether a completion message with stats should be
 #' printed to the screen whenever the permutation test ends. A progress bar is
 #' printed in all cases.
 #'
-#' @return A list giving `$p` (the p-value) and `$error` (the Monte-Carlo
-#' error) of the calculation, `$N_perms` the number of permutations performed/test statistics calculated, `$N_trials` the total number of observations for which the groups were permuted.
+#' @return A list giving `$p` (the p-value), `$error` (the Monte-Carlo
+#' error) of the calculation, `$N_trials` the number of permutations performed/
+#' test statistics calculated, `$N_obs` the total number of observations for 
+#' which the groups were permuted.
 #'
 #' @importFrom doSNOW registerDoSNOW
 #' @importFrom parallel makeCluster detectCores stopCluster
 #' @importFrom foreach foreach %do% %dopar%
 #'
-#' @examples "coming soon"
+#' @example examples/global_permutation_test_example.R
 #'
 #' @export
 global_permutation_test <- function(data_,
