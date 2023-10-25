@@ -1,20 +1,26 @@
-#' String encoder
+#' Staffer Encoding
 #'
-#' encodes any string into a standardised RTxxxxx format
+#' Turns any Sepsis Staffer ID number into a unique 'RLxxxxx' formatted. This is
+#' necessary because a QA analysis showed us that there were many cases of the 
+#' same worker being given multiple Nxxxxx/Dxxxxx IDs throughout different
+#' encounters in the dtudy. For Aim 11 of the study (and other subprojects), a
+#' unique ID for each staffer is necessary (i.e., for tracing activities over
+#' time).
 #'
 #' @importFrom magrittr %>%
 #' @importFrom dplyr tibble rowwise mutate left_join all_of rename_with
 #' @importFrom rlang hash
 #' @importFrom lazyeval lazy_dots
 #'
-#' @param .data (optional) the vector/list/data frame with ids
+#' @param data_ the vector/list/data frame with ids
 #' @param id_col the name of the column with IDs to be encoded (ignored
-#'  if .data is a list)
+#'  if data_ is a list)
 #' @param out_col_name the name of the column with the encoded IDs (if NA,
 #' the source column is overwritten and a column with a default name will
 #' store the original information)
 #' @param seed random seed to use (for reproducibility of results),
-#' @param na_fill treat NA as a group and give them an ID
+#' @param na_fill treat all NA IDs (say, in a data frame) as a single staffer 
+#' and assign them all the same unique ID
 #' @param ... currently ignored
 #'
 #' @return a data frame / list with id_col replaced with new Sepsis IDs, with
