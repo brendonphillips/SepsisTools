@@ -15,21 +15,8 @@ permgp_fn(
   ranseed = NA
 )
 }
-\arguments{
-\item{data_}{data frame with at least three columns: group, id and event}
-
-\item{group_col_name}{name of the `group` column}
-
-\item{id_col_name}{name of the `id` column}
-
-\item{systematic}{whether the groups should be permuted consistently with 
-the id, or not}
-}
-\value{
-The test statistic after even groups have been permuted
-}
 \description{
-Standardises the input data table and retrieves the test statistic (p value)
+Permutation test helper (deprecated, please use `get_p_value`)
 }
 \examples{
 data("class_performance")

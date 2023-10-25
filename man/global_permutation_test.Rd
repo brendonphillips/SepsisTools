@@ -20,38 +20,81 @@ global_permutation_test(
 )
 }
 \arguments{
-\item{data_}{data frame with at least 3 columns: event (yes/no/numerical describing what happened), id (unique id of the patient/participant), group (what trial/observation group they belonged to)}
+\item{data_}{the data set, with at least three features: event (what 
+happened), id (who were they), group (what intervention were they 
+administered)}
 
-\item{group_col_name}{the name of the (IP) column}
+\item{...}{currently ignored}
 
-\item{id_col_name}{name of the (participant) id column}
+\item{group_col_name}{the name of the column with `group` information}
 
-\item{event_col_name}{name of the event column}
+\item{id_col_name}{the name of the column with participant/patient `id` 
+information}
 
-\item{ntrials}{the number of permutation tests in the ensemble}
+\item{event_col_name}{the name of the column with the event (data type 
+castable to numerical)}
 
-\item{parallel}{True/False whether the permutations should be run in
-parallel for speed}
+\item{ntrials}{the number of permutation tests performed (and test 
+statistics calculated). currently capped at N!}
 
-\item{ranseed}{possibility for using a fixed random seed, for reproducibility}
+\item{parallel}{True/False whether the permutations/test statistics are to 
+be calculated serially or in parallel (uses the R snow package)}
 
-\item{systematic}{True/False whether the groups are to be grouped or distributed totally randomly. For example, should all observations from Patient A in group (G1) be permuted to the same group (G2), or can they be sporead across permuted groups? The second would be in line with other prepackaged R libraries.}
+\item{ranseed}{a set random seed to be used for the permutations (used for 
+reproducibility)}
 
-\item{na_fill}{if any entries in the input table have empty groups, fill
-them with a generated group name (.NA_group), or filter those rows out}
+\item{systematic}{True/False whether the groups are to be grouped or 
+distributed totally randomly. For example, should all observations from 
+Patient A in group (G1) be permuted to the same group (G2), or can they be 
+spread across permuted groups? The first option (TRUE) is endorsed by 
+Eleanor, the second option (FALSE) would be in line with other R packages 
+(`coin`, for example).}
+
+\item{na_fill}{if any entries in the input table have empty groups, either 
+(TRUE) fill them with a generated group name .NA_group, or (FALSE) filter 
+those rows out.}
 
 \item{verbose}{TRUE/FALSE whether a completion message with stats should be
 printed to the screen whenever the permutation test ends. A progress bar is
 printed in all cases.}
 }
 \value{
-A list giving `$p` (the p-value) and `$error` (the Monte-Carlo
-error) of the calculation, `$N_perms` the number of permutations performed/test statistics calculated, `$N_trials` the total number of observations for which the groups were permuted.
+A list giving `$p` (the p-value), `$error` (the Monte-Carlo
+error) of the calculation, `$N_trials` the number of permutations performed/
+test statistics calculated, `$N_obs` the total number of observations for 
+which the groups were permuted.
 }
 \description{
 Carry through the permutation test
 }
 \examples{
-"coming soon"
+# use the included class_performance data set for the example
+data("class_performance")
 
+# carry through the global permutation test on the class_performance data set
+res <- global_permutation_test(class_performance,
+                                group_col_name = "class_teacher",
+                                id_col_name = "student_id",
+                                event_col_name = "passed_quiz_numeric",
+                                ntrials = 1000,
+                                parallel = TRUE,
+                                ranseed = NaN,
+                                systematic = TRUE,
+                                na_fill = TRUE,
+                                verbose = TRUE)
+
+
+# `res` is a list of four statistics
+res
+# $p
+# [1] 0.337
+# 
+# $error
+# [1] 0.01494761
+# 
+# $N_trials
+# [1] 1000
+# 
+# $N_obs
+# [1] 3618
 }

@@ -16,16 +16,32 @@ get_p_value(
 )
 }
 \arguments{
-\item{data_}{data frame with at least three columns: group, id and event}
+\item{data_}{the data set, with at least three features: event (what 
+happened), id (who were they), group (what intervention were they 
+administered)}
 
-\item{group_col_name}{name of the `group` column}
+\item{...}{currently ignored}
 
-\item{id_col_name}{name of the `id` column}
+\item{group_col_name}{the name of the column with `group` information}
 
-\item{systematic}{whether the groups should be permuted consistently with
-the id, or not}
+\item{id_col_name}{the name of the column with participant/patient `id` 
+information}
 
-\item{ranseed}{}
+\item{event_col_name}{the name of the column with the event (data type 
+castable to numerical)}
+
+\item{systematic}{True/False whether the groups are to be grouped or 
+distributed totally randomly. For example, should all observations from 
+Patient A in group (G1) be permuted to the same group (G2), or can they be 
+spread across permuted groups? The first option (TRUE) is endorsed by 
+Eleanor, the second option (FALSE) would be in line with other R packages 
+(`coin`, for example).}
+
+\item{ranseed}{a set random seed to be used for the permutations (used for 
+reproducibility)
+#' @param na_fill if any entries in the input table have empty groups, either 
+(TRUE) fill them with a generated group name .NA_group, or (FALSE) filter 
+those rows out.}
 }
 \value{
 The test statistic after even groups have been permuted

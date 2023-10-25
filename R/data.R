@@ -37,6 +37,6 @@
 #'    \item{chrw_id}{The ID of the staffer appearing in the SEPSIS study data 
 #'    set [not necessarily a community health research worker (CHRW)],}
 #'    \item{encoding}{The new unique Roth Lab ID number that can be used to 
-#'    track the worker through  out each encounter of the study.}
+#'    track the worker throughout each encounter of the study.}
 #' }
 "staffer_dictionary"
