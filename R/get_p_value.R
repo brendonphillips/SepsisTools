@@ -2,12 +2,26 @@
 #'
 #' standardises the input data table and retrieves the test statistic (p value)
 #'
-#' @param data_ data frame with at least three columns: group, id and event
-#' @param group_col_name name of the `group` column
-#' @param id_col_name name of the `id` column
-#' @param systematic whether the groups should be permuted consistently with
-#' the id, or not
-#' @param ranseed
+#' @param data_ the data set, with at least three features: event (what 
+#' happened), id (who were they), group (what intervention were they 
+#' administered)
+#' @param ... currently ignored
+#' @param group_col_name the name of the column with `group` information 
+#' @param id_col_name the name of the column with participant/patient `id` 
+#' information
+#' @param event_col_name the name of the column with the event (data type 
+#' castable to numerical)
+#' @param systematic True/False whether the groups are to be grouped or 
+#' distributed totally randomly. For example, should all observations from 
+#' Patient A in group (G1) be permuted to the same group (G2), or can they be 
+#' spread across permuted groups? The first option (TRUE) is endorsed by 
+#' Eleanor, the second option (FALSE) would be in line with other R packages 
+#' (`coin`, for example).
+#' @param ranseed a set random seed to be used for the permutations (used for 
+#' reproducibility)
+#'#' @param na_fill if any entries in the input table have empty groups, either 
+#'(TRUE) fill them with a generated group name .NA_group, or (FALSE) filter 
+#'those rows out.
 #'
 #' @returns The test statistic after even groups have been permuted
 #'
