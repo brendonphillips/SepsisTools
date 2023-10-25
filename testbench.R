@@ -23,8 +23,21 @@ data("class_performance")
 
 group_col_name <- "class_teacher"
 id_col_name <- "student_id"
-event_col_name <- "passed_exam_num"
+event_col_name <- "passed_quiz_numeric"
 na_fill <- TRUE
+
+# class_performance <- class_performance %>%
+#     encode_staffer_ids(id_col = student_id, ranseed = 25834495) %>%
+#     select(-contains("student_id16")) %>%
+#     rename_with(~gsub("exam", "quiz", .x)) %>%
+#     rename("passed_quiz_numeric" = "passed_quiz_num") %>%
+#     group_by(student_id, class_teacher) %>%
+#     mutate(
+#         quiz_number = sample(1:15, size = n(), replace = FALSE)
+#     ) %>%
+#     relocate(student_id, class_teacher, quiz_number)
+# 
+# save(class_performance, file="class_performance.rda")
 
 ## generate the staffer_dictionary
 
@@ -80,11 +93,11 @@ na_fill <- TRUE
 # print(hehe)
 
 # temp <- class_performance %>%
-#     select(student_id, class_teacher, passed_exam_num) %>%
+#     select(student_id, class_teacher, passed_quiz_num) %>%
 #     rename(
 #         id_ = student_id,
 #         group_ = class_teacher,
-#         event_ = passed_exam_num
+#         event_ = passed_quiz_num
 #     ) %>%
 #     mutate(
 #         id_ = as.numeric(factor(id_)),
@@ -107,9 +120,9 @@ na_fill <- TRUE
 #     permute_groups(systematic = TRUE)
 
 # haha <- global_permutation_test(class_performance,
-#                     group_col_name = group_col_name,
-#                     id_col_name = id_col_name,
-#                     event_col_name = event_col_name,
+#                     group_col_name = "class_teacher",
+#                     id_col_name = "student_id",
+#                     event_col_name = "passed_quiz_numeric",
 #                     ntrials = 1000,
 #                     parallel = TRUE,
 #                     ranseed = NaN,
