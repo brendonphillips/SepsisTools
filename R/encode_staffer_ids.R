@@ -18,7 +18,7 @@
 #' @param out_col_name the name of the column with the encoded IDs (if NA,
 #' the source column is overwritten and a column with a default name will
 #' store the original information)
-#' @param seed random seed to use (for reproducibility of results),
+#' @param ranseed random seed to use (for reproducibility of results),
 #' @param na_fill treat all NA IDs (say, in a data frame) as a single staffer 
 #' and assign them all the same unique ID
 #' @param ... currently ignored
@@ -33,9 +33,15 @@ encode_staffer_ids <- function(data_,
                                ...,
                                id_col = NA,
                                out_col_name = NA,
-                               seed = NaN,
+                               ranseed = NaN,
                                na_fill = FALSE) {
 
+  if (!is.na(ranseed)) {
+    old_seed <- .Random.seed
+    on.exit({.Random.seed <<- old_seed})
+    set.seed(ranseed)
+  }
+  
   encode_id_help <- function(the_id) {
 
     hash_split <- strsplit(hash(the_id), split = "")[[1]]
@@ -53,16 +59,10 @@ encode_staffer_ids <- function(data_,
     return(final_id)
   }
 
-  if (!is.na(seed)) {
-    old_seed <- .Random.seed
-    on.exit({.Random.seed <<- old_seed})
-    set.seed(seed)
-  }
-
   # TODO: if table give with no input and output names, put error code
 
   current_id_col <- gsub('\\"', "", deparse(substitute(id_col)))
-  out_stub <- deparse(substitute(out_col_name))
+  out_stub <- gsub('\\"', "", deparse(substitute(out_col_name)))
 
   if (is.na(out_stub) | out_stub %in% c("NA", "NAN")) {
     # the overwrite case
@@ -96,7 +96,7 @@ encode_staffer_ids <- function(data_,
     message("no IDs found. returning the input object")
     return(data_)
   }
-
+  
   dict <- unique(id_vec) %>%
     .[!is.na(.) | na_fill] %>%
     {tibble(!!current_id_col := .)} %>%
@@ -114,8 +114,9 @@ encode_staffer_ids <- function(data_,
         by = setNames("join_col", current_id_col),
         keep = FALSE
       ) %>%
-      select(-all_of(c(current_id_col))) %>%
-      rename_with(~ gsub(".y$", "", .x))
+      select(-contains(".y"))
+      # select(-all_of(c(current_id_col))) %>%
+      # rename_with(~ gsub(".y$", "", .x))
 
   } else {
     final_obj <- dict[[new_id_col]]
