@@ -148,9 +148,8 @@ For issues, contact me on Teams and/or email me.
 SEPSIS data (Microsoft 365), personal communication amongst the ANalysis team.
 
 ## To-do
-* better implementation for `ranseed` argument
 * access to `permute_groups` and `standard_tble` functions during parallel execution
-* `na_fill` adgument for lists in `encode_staffer_ids` 
+* `na_fill` argument for lists in `encode_staffer_ids` 
 * histogram of test statistics during permutation tests
 
 ## Licence
