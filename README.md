@@ -9,7 +9,15 @@ We aim to make sure that analysts are all using the same tested code, rather tha
 * Versioning - one of the many benefits of using GitHub,
 * Easier code review - a central source of code only needs to be verified once before general lab use.
 
-# Installation
+# Collaborators
+* Brendon Phillips (SickKids); brendon.phillips@sickkids.ca,
+* Cole Heasley (SickKids); ,
+* Miranda Loutet (SickKids); ,
+* Celine Funk (SickKids); ,
+* Daniel Roth (SickKids); ,
+* Lisa Pell (SickKids); .
+
+# Package Installation
 The package is available via GitHub via the commands:
 ```r
 # install the package
@@ -114,7 +122,8 @@ For issues, contact me on Teams and/or email me.
 | 17 Oct 2023 |              R package proposed             |      Brendon Phillips     |      |
 | 23 Oct 2023 |          First draft of package finished    |      Brendon Phillips     |      |
 | 25 Oct 2023 |              Package documented             |      Brendon Phillips     |      |
-| 26 Oct 2023 | problems with `ranseed` arguments fixed     |  Brendon Phillips         | change necessitated by change to parameter names, `get_p_value_function` renamed to `single_permutation`    |
+| 26 Oct 2023 | problems with `ranseed` arguments fixed     |  Brendon Phillips         | change necessitated by change to parameter names, `get_p_value_function` renamed to `single_permutation`  |
+| 26 Oct 2023 | staffer_dictionary amended after review | Brendon Phillips | staffer name similarity dismissed as coincidence, dictionary regenerated |
 |   ongoing   |                   testing                   | Cole Heasley, Celine Funk |      |
 
 ## Dependencies
