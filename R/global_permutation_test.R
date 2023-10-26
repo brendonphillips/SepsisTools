@@ -84,6 +84,15 @@ global_permutation_test <- function(data_,
     length(data_groups) > 2,
     "all groups", paste(data_groups, collapse=" vs. ")
   )
+  
+  
+  if (!is.na(ranseed)) {
+    old_seed <- .Random.seed
+    on.exit({.Random.seed <<- old_seed})
+    set.seed(ranseed)
+  }
+  
+  seed_vector <- sample(1:1e9, size = num_trials, replace = FALSE)
 
   if (parallel) {
 
@@ -103,7 +112,7 @@ global_permutation_test <- function(data_,
 
     teststat_null <- tryCatch({
 
-      foreach(1:num_trials,
+      foreach(idx = 1:num_trials,
               .combine = "c",
               .export=c("single_permutation"),
               .packages = c("dplyr"),
@@ -111,7 +120,7 @@ global_permutation_test <- function(data_,
 
         single_permutation(
           standard_data,
-          ranseed = ranseed,
+          ranseed = seed_vector[idx],
           systematic = systamatic,
           verbose = verbose
         )
@@ -147,7 +156,7 @@ global_permutation_test <- function(data_,
     for (idx in 1:num_trials) {
       setTxtProgressBar(prog_bar, idx)
       teststat_null[idx] <- single_permutation(standard_data,
-        ranseed = ranseed,
+        ranseed = seed_vector[idx],
         systematic = systematic,
         verbose = verbose
       )
