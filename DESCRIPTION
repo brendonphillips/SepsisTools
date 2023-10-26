@@ -11,11 +11,15 @@ Description: Code related to the SEPSIS project (2023-)
 Depends: 
     R (>= 4.1),
 Imports: 
+    data.table,
     dplyr,
-    doParallel,
+    parallel,
     doSNOW,
+    haven,
     lazyeval,
-    plyr
+    plyr,
+    purrr,
+    readxl
 Encoding: UTF-8
 RoxygenNote: 7.2.3
 Collate: 
@@ -25,7 +29,7 @@ Collate:
     'encode_staffer_ids.R'
     'event_to_num.R'
     'permute_groups.R'
-    'get_p_value.R'
+    'single_permutation.R'
     'get_table.R'
     'global_permutation_test.R'
     'magrittr.R'

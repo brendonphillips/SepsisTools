@@ -105,11 +105,11 @@ global_permutation_test <- function(data_,
 
       foreach(1:num_trials,
               .combine = "c",
-              .export=c("get_p_value"),
+              .export=c("single_permutation"),
               .packages = c("dplyr"),
               .options.snow = opts) %dopar% {
 
-        get_p_value(
+        single_permutation(
           standard_data,
           ranseed = ranseed,
           systematic = systamatic,
@@ -146,7 +146,7 @@ global_permutation_test <- function(data_,
 
     for (idx in 1:num_trials) {
       setTxtProgressBar(prog_bar, idx)
-      teststat_null[idx] <- get_p_value(standard_data,
+      teststat_null[idx] <- single_permutation(standard_data,
         ranseed = ranseed,
         systematic = systematic,
         verbose = verbose

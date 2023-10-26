@@ -76,7 +76,7 @@ na_fill <- TRUE
 #                   ranseed = 6)
 # print(haha)
 
-# haha <- get_p_value(class_performance,
+# haha <- single_permutation(class_performance,
 #                     group_col_name = group_col_name,
 #                     id_col_name = id_col_name,
 #                     event_col_name = event_col_name,

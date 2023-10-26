@@ -29,7 +29,7 @@
 #' @importFrom dplyr select mutate right_join tibble join_by all_of .data n
 #'
 #' @export
-get_p_value <- function(data_,
+single_permutation <- function(data_,
                         ...,
                         group_col_name = "group_",
                         id_col_name = "id_",
@@ -77,7 +77,7 @@ get_p_value <- function(data_,
   # permuted_table <- permute_groups(standardised_table, systematic)
 
   # TODO: a work-around for the parallel processing, I've copied the body
-  # of the permute_groups function into get_p_value. we need to investigate
+  # of the permute_groups function into single_permutation. we need to investigate
   # why I had endless problems with permuted_table, but perm_test_statistic
   # is not a problem, and can be loaded conventionally and without workarounds.
   # There's a fix there; let's get to it. TECHNICAL DEBT

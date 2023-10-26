@@ -1,6 +1,6 @@
-#' Permutation test helper (deprecated, please use `get_p_value`)
+#' Permutation test helper (deprecated, please use `single_permutation`)
 #' 
-#' @example examples/get_p_value_example.R
+#' @example examples/single_permutation_example.R
 #'
 #' @export
 permgp_fn <- function(data_,
@@ -14,12 +14,12 @@ permgp_fn <- function(data_,
 
   warning(paste(
     "Function 'pergp_fn' is deprecated and will soon be removed.",
-    "Replace function name with 'get_p_value', with no other change to the",
+    "Replace function name with 'single_permutation', with no other change to the",
     "function signature. Please see documentation for an added `na_fill`",
     "parameter."
   ))
 
-  temp <- get_p_value(data_,
+  temp <- single_permutation(data_,
                       group_col_name = group_col_name,
                       id_col_name = id_col_name,
                       event_col_name = event_col_name,
