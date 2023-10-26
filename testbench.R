@@ -67,16 +67,16 @@ na_fill <- TRUE
 # save(staffer_dictionary, file = "data/staffer_dictionary.rda")
 # fwrite(staffer_dictionary, file = "data/staffer_dictionary.csv")
 
-# haha <- permgp_fn(class_performance,
+# haha <- single_permutation(class_performance,
 #                   group_col_name = group_col_name,
 #                   id_col_name = id_col_name,
 #                   event_col_name = event_col_name,
 #                   systematic = TRUE,
 #                   na_fill = TRUE,
-#                   ranseed = 6)
+#                   ranseed = 8)
 # print(haha)
 
-# haha <- single_permutation(class_performance,
+# haha <- permgp_fn(class_performance,
 #                     group_col_name = group_col_name,
 #                     id_col_name = id_col_name,
 #                     event_col_name = event_col_name,
@@ -115,32 +115,48 @@ na_fill <- TRUE
 #     relocate(id_,) %>%
 #     arrange(id_)
 
-# # haha <- class_performance %>% 
-# haha <- temp %>%
-#     permute_groups(systematic = TRUE)
+# haha <- tibble(
+#     event_ = c(1,0,1,0,1), 
+#     group_=c(1,1,2,2,1), 
+#     id_=1:5
+# ) %>% 
+# permute_groups(systematic = TRUE, ranseed = 5)
+
+# haha <- tibble(
+#     event_ = c(1,0,1,0,1),
+#     group_ = as.character(c(1,1,2,2,1)),
+#     id_=1:5
+# ) %>%
+# single_permutation(systematic = TRUE, ranseed = 6) %>%
+#     print()
+
+
 
 # haha <- global_permutation_test(class_performance,
 #                     group_col_name = "class_teacher",
 #                     id_col_name = "student_id",
 #                     event_col_name = "passed_quiz_numeric",
-#                     ntrials = 1000,
+#                     ntrials = 100,
 #                     parallel = TRUE,
-#                     ranseed = NaN,
+#                     ranseed = 23748923,
 #                     systematic = TRUE,
 #                     na_fill = TRUE,
-#                     verbose = TRUE)
+#                     verbose = FALSE) %>%
+#     print()
 
-# haha <- pairwise_permutation_tests(class_performance,
-#                                    group_col_name = group_col_name,
-#                                    id_col_name = id_col_name,
-#                                    event_col_name = event_col_name,
-#                                    ntrials = 1000,
-#                                    compare_to = "Roth",
-#                                    parallel = TRUE,
-#                                    global_test_first = TRUE,
-#                                    verbose = TRUE,
-#                                    p_adj_meths = c("BH", "holm"),
-#                                    na_fill = TRUE)
+haha <- pairwise_permutation_tests(class_performance,
+                                   group_col_name = group_col_name,
+                                   id_col_name = id_col_name,
+                                   event_col_name = event_col_name,
+                                   ntrials = 100,
+                                   compare_to = "Roth",
+                                   parallel = TRUE,
+                                   global_test_first = TRUE,
+                                   verbose = FALSE,
+                                   p_adj_meths = c("BH", "holm"),
+                                   na_fill = TRUE,
+                                   ranseed = 68) %>%
+    print()
 
 
 
