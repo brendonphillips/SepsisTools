@@ -10,7 +10,7 @@ A data frame with 208 rows and 2 columns
    \item{chrw_id}{The ID of the staffer appearing in the SEPSIS study data 
    set [not necessarily a community health research worker (CHRW)],}
    \item{encoding}{The new unique Roth Lab ID number that can be used to 
-   track the worker through  out each encounter of the study.}
+   track the worker throughout each encounter of the study.}
 }
 }
 \usage{
@@ -21,7 +21,7 @@ In the SEPSIS project, each staff member in every capacity (field, lab, etc)
 was given an ID number, usually of the form Dxxxxx/Nxxxxx (where each x is a 
 digit 0-9). During QA, we found that these IDs were not unique over the span 
 of the project and over all encounters, as was presumed. After communication 
-with the investigative team in Bangladesh, we formulated a lookup table lut) 
+with the investigative team in Bangladesh, we formulated a lookup table (lut) 
 that, based on our criteria, maps each data set ID number to a unique ID of 
 the format `RLxxxxx` (where x is a digit 0-9, with 'RL' an abbreviation for 
 "Roth Lab"). This lut is used in the function `encode_staffer_ids`.
