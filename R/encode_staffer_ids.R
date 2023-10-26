@@ -1,20 +1,26 @@
-#' String encoder
+#' Staffer Encoding
 #'
-#' encodes any string into a standardised RTxxxxx format
+#' Turns any Sepsis Staffer ID number into a unique 'RLxxxxx' formatted. This is
+#' necessary because a QA analysis showed us that there were many cases of the 
+#' same worker being given multiple Nxxxxx/Dxxxxx IDs throughout different
+#' encounters in the dtudy. For Aim 11 of the study (and other subprojects), a
+#' unique ID for each staffer is necessary (i.e., for tracing activities over
+#' time).
 #'
 #' @importFrom magrittr %>%
 #' @importFrom dplyr tibble rowwise mutate left_join all_of rename_with
 #' @importFrom rlang hash
 #' @importFrom lazyeval lazy_dots
 #'
-#' @param .data (optional) the vector/list/data frame with ids
+#' @param data_ the vector/list/data frame with ids
 #' @param id_col the name of the column with IDs to be encoded (ignored
-#'  if .data is a list)
+#'  if data_ is a list)
 #' @param out_col_name the name of the column with the encoded IDs (if NA,
 #' the source column is overwritten and a column with a default name will
 #' store the original information)
-#' @param seed random seed to use (for reproducibility of results),
-#' @param na_fill treat NA as a group and give them an ID
+#' @param ranseed random seed to use (for reproducibility of results),
+#' @param na_fill treat all NA IDs (say, in a data frame) as a single staffer 
+#' and assign them all the same unique ID
 #' @param ... currently ignored
 #'
 #' @return a data frame / list with id_col replaced with new Sepsis IDs, with
@@ -27,9 +33,15 @@ encode_staffer_ids <- function(data_,
                                ...,
                                id_col = NA,
                                out_col_name = NA,
-                               seed = NaN,
+                               ranseed = NaN,
                                na_fill = FALSE) {
 
+  if (!is.na(ranseed)) {
+    old_seed <- .Random.seed
+    on.exit({.Random.seed <<- old_seed})
+    set.seed(ranseed)
+  }
+  
   encode_id_help <- function(the_id) {
 
     hash_split <- strsplit(hash(the_id), split = "")[[1]]
@@ -47,16 +59,10 @@ encode_staffer_ids <- function(data_,
     return(final_id)
   }
 
-  if (!is.na(seed)) {
-    old_seed <- .Random.seed
-    on.exit({.Random.seed <<- old_seed})
-    set.seed(seed)
-  }
-
   # TODO: if table give with no input and output names, put error code
 
   current_id_col <- gsub('\\"', "", deparse(substitute(id_col)))
-  out_stub <- deparse(substitute(out_col_name))
+  out_stub <- gsub('\\"', "", deparse(substitute(out_col_name)))
 
   if (is.na(out_stub) | out_stub %in% c("NA", "NAN")) {
     # the overwrite case
@@ -90,7 +96,7 @@ encode_staffer_ids <- function(data_,
     message("no IDs found. returning the input object")
     return(data_)
   }
-
+  
   dict <- unique(id_vec) %>%
     .[!is.na(.) | na_fill] %>%
     {tibble(!!current_id_col := .)} %>%
@@ -108,8 +114,9 @@ encode_staffer_ids <- function(data_,
         by = setNames("join_col", current_id_col),
         keep = FALSE
       ) %>%
-      select(-all_of(c(current_id_col))) %>%
-      rename_with(~ gsub(".y$", "", .x))
+      select(-contains(".y"))
+      # select(-all_of(c(current_id_col))) %>%
+      # rename_with(~ gsub(".y$", "", .x))
 
   } else {
     final_obj <- dict[[new_id_col]]

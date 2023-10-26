@@ -2,12 +2,26 @@
 #'
 #' standardises the input data table and retrieves the test statistic (p value)
 #'
-#' @param data_ data frame with at least three columns: group, id and event
-#' @param group_col_name name of the `group` column
-#' @param id_col_name name of the `id` column
-#' @param systematic whether the groups should be permuted consistently with
-#' the id, or not
-#' @param ranseed
+#' @param data_ the data set, with at least three features: event (what 
+#' happened), id (who were they), group (what intervention were they 
+#' administered)
+#' @param ... currently ignored
+#' @param group_col_name the name of the column with `group` information 
+#' @param id_col_name the name of the column with participant/patient `id` 
+#' information
+#' @param event_col_name the name of the column with the event (data type 
+#' castable to numerical)
+#' @param systematic True/False whether the groups are to be grouped or 
+#' distributed totally randomly. For example, should all observations from 
+#' Patient A in group (G1) be permuted to the same group (G2), or can they be 
+#' spread across permuted groups? The first option (TRUE) is endorsed by 
+#' Eleanor, the second option (FALSE) would be in line with other R packages 
+#' (`coin`, for example).
+#' @param ranseed a set random seed to be used for the permutations (used for 
+#' reproducibility)
+#'#' @param na_fill if any entries in the input table have empty groups, either 
+#'(TRUE) fill them with a generated group name .NA_group, or (FALSE) filter 
+#'those rows out.
 #'
 #' @returns The test statistic after even groups have been permuted
 #'
@@ -15,7 +29,7 @@
 #' @importFrom dplyr select mutate right_join tibble join_by all_of .data n
 #'
 #' @export
-get_p_value <- function(data_,
+single_permutation <- function(data_,
                         ...,
                         group_col_name = "group_",
                         id_col_name = "id_",
@@ -51,24 +65,22 @@ get_p_value <- function(data_,
     ) %>%
     subset(!is.na(group_))
 
-
-  if (!is.na(ranseed)) {
-    old_seed <- .Random.seed
-    on.exit({.Random.seed <<- old_seed})
-    set.seed(ranseed)
-  }
-
   #####
 
   # permuted_table <- permute_groups(standardised_table, systematic)
 
   # TODO: a work-around for the parallel processing, I've copied the body
-  # of the permute_groups function into get_p_value. we need to investigate
+  # of the permute_groups function into single_permutation. we need to investigate
   # why I had endless problems with permuted_table, but perm_test_statistic
   # is not a problem, and can be loaded conventionally and without workarounds.
   # There's a fix there; let's get to it. TECHNICAL DEBT
 
   ###### must get rid of
+  if (!is.na(ranseed)) {
+    old_seed <- .Random.seed
+    on.exit({.Random.seed <<- old_seed})
+    set.seed(ranseed)
+  }
   permuted_table <- standard_data %>%
     tibble %>%
     select(id_, group_) %>%

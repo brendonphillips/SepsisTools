@@ -1,30 +1,87 @@
 # load the `class_performance` test data set in the package
 data(class_performance)
 
-# encode a number
+
+# encode a number - if no random seed given, answer will vary
 encode_staffer_ids(2)
+# [1] "RL90112"
+
 
 # encode a list of strings
-encode_staffer_ids(list("lisa", "daniel", "diego", "eleanor"))
+encode_staffer_ids(list("lisa", "daniel", "diego", "eleanor", NA))
+# [1] "RL25452" "RL56662" "RL13510" "RL14412"
+
+
+# encode another list of strings - this time, the NA entries will be given a unique ID
+encode_staffer_ids(list("lisa", "daniel", "diego", "eleanor", NA), na_fill = TRUE)
+# [1] "RL84200" "RL02420" "RL12664" "RL78963" "RL23407"
+
 
 # encode a vector of numbers with random seed given for reproducibility
 encode_staffer_ids(1:10, seed = 10)
+# [1] "RL11296" "RL17532" "RL10220" "RL20305" "RL00192" "RL57518" "RL17614" "RL03028" "RL15644" "RL22135"
+
 
 # encode a column of a table, replace the column (out_col_name not given)
-encode_staffer_ids(class_performance, ID_col = "class_teacher", seed = 303902)
+head(encode_staffer_ids(class_performance, id_col = "class_teacher", seed = 303902))
+# # A tibble: 6 × 7
+# # Groups:   student_id, class_teacher [1]
+#  student_id class_teacher quiz_number passed_quiz passed_quiz_numeric passed_quiz_string class_teacher1698254109
+#  <chr>      <chr>               <int> <lgl>                     <dbl> <chr>              <chr>                  
+# 1 RL13020    Grey                    5 TRUE                          1 Yes                Grey                   
+# 2 RL13020    Grey                    9 TRUE                          1 Yes                Grey                   
+# 3 RL13020    Grey                   11 TRUE                          1 Yes                Grey                   
+# 4 RL13020    Grey                    3 TRUE                          1 Yes                Grey                   
+# 5 RL13020    Grey                   15 TRUE                          1 Yes                Grey                   
+# 6 RL13020    Grey                   10 TRUE                          1 Yes                Grey                   
+
 
 # encode a column of a table with given out_col name
-encode_staffer_ids(class_performance,
-  ID_col = "student_id",
+head(encode_staffer_ids(class_performance,
+  id_col = "student_id",
   out_col_name = "encoding",
-  seed = 303902
-)
+  ranseed = 123412
+))
+# # A tibble: 6 × 7
+# # Groups:   student_id, class_teacher [1]
+#  student_id class_teacher quiz_number passed_quiz passed_quiz_numeric passed_quiz_string encoding
+#  <chr>      <chr>               <int> <lgl>                     <dbl> <chr>              <chr>   
+# 1 RL13020    Grey                    5 TRUE                          1 Yes                RL16021 
+# 2 RL13020    Grey                    9 TRUE                          1 Yes                RL16021 
+# 3 RL13020    Grey                   11 TRUE                          1 Yes                RL16021 
+# 4 RL13020    Grey                    3 TRUE                          1 Yes                RL16021 
+# 5 RL13020    Grey                   15 TRUE                          1 Yes                RL16021 
+# 6 RL13020    Grey                   10 TRUE                          1 Yes                RL16021 
+
 
 # using a magrittr pipe, replace column
-class_performance %>% encode_staffer_ids(ID_col = "student_id", seed = 29)
+class_performance %>% 
+  encode_staffer_ids(id_col = "student_id", ranseed = 65) %>%
+  head()
+# # A tibble: 6 × 7
+# # Groups:   student_id, class_teacher [1]
+# student_id class_teacher quiz_number passed_quiz passed_quiz_numeric passed_quiz_string student_id1698254459
+# <chr>      <chr>               <int> <lgl>                     <dbl> <chr>              <chr>               
+# 1 RL13020    Grey                    5 TRUE                          1 Yes                RL13020             
+# 2 RL13020    Grey                    9 TRUE                          1 Yes                RL13020             
+# 3 RL13020    Grey                   11 TRUE                          1 Yes                RL13020             
+# 4 RL13020    Grey                    3 TRUE                          1 Yes                RL13020             
+# 5 RL13020    Grey                   15 TRUE                          1 Yes                RL13020             
+# 6 RL13020    Grey                   10 TRUE                          1 Yes                RL13020 
+
 
 # using a magrittr pipe, without a seed, encodings in aother column
 class_performance %>% encode_staffer_ids(
-  ID_col = "student_id",
+  id_col = "student_id",
   out_col_name = "encoding"
-)
+) %>% head
+# # A tibble: 6 × 7
+# # Groups:   student_id, class_teacher [1]
+#  student_id class_teacher quiz_number passed_quiz passed_quiz_numeric passed_quiz_string encoding
+#  <chr>      <chr>               <int> <lgl>                     <dbl> <chr>              <chr>   
+# 1 RL13020    Grey                    5 TRUE                          1 Yes                RL12788 
+# 2 RL13020    Grey                    9 TRUE                          1 Yes                RL12788 
+# 3 RL13020    Grey                   11 TRUE                          1 Yes                RL12788 
+# 4 RL13020    Grey                    3 TRUE                          1 Yes                RL12788 
+# 5 RL13020    Grey                   15 TRUE                          1 Yes                RL12788 
+# 6 RL13020    Grey                   10 TRUE                          1 Yes                RL12788 

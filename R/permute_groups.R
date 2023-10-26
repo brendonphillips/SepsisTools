@@ -16,8 +16,14 @@
 #' ## standard col names, id_no, group_no, column_no
 #'
 #' @export
-permute_groups <- function(data_, systematic) {
-
+permute_groups <- function(data_, systematic, ..., ranseed = NaN) {
+  
+  if (!is.na(ranseed)) {
+    old_seed <- .Random.seed
+    on.exit({.Random.seed <<- old_seed})
+    set.seed(ranseed)
+  }
+  
   if (systematic == TRUE) {
 
     data_perm <- data_ %>%
@@ -33,6 +39,7 @@ permute_groups <- function(data_, systematic) {
       right_join(
         data_,
         by = join_by(id_, group_)
+        
       )
   } else {
 

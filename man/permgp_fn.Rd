@@ -2,7 +2,7 @@
 % Please edit documentation in R/permgp_fn.R
 \name{permgp_fn}
 \alias{permgp_fn}
-\title{Permutation test helper (deprecated, please use `get_p_value`)}
+\title{Permutation test helper (deprecated, please use `single_permutation`)}
 \usage{
 permgp_fn(
   data_,
@@ -15,34 +15,21 @@ permgp_fn(
   ranseed = NA
 )
 }
-\arguments{
-\item{data_}{data frame with at least three columns: group, id and event}
-
-\item{group_col_name}{name of the `group` column}
-
-\item{id_col_name}{name of the `id` column}
-
-\item{systematic}{whether the groups should be permuted consistently with 
-the id, or not}
-}
-\value{
-The test statistic after even groups have been permuted
-}
 \description{
-Standardises the input data table and retrieves the test statistic (p value)
+Permutation test helper (deprecated, please use `single_permutation`)
 }
 \examples{
 data("class_performance")
 
 # calculating the p vakue from the permutation test with the included class_performance data set 
-get_p_value(class_performance,
+single_permutation(class_performance,
           group_col_name = group_col_name,
           id_col_name = id_col_name,
           event_col_name = event_col_name,
           systematic = TRUE,
           na_fill = TRUE)
 
-# deprecated function; currently an alias for the get_p_value function 
+# deprecated function; currently an alias for the single_permutation function 
 permgp_fn(class_performance,
           group_col_name = group_col_name,
           id_col_name = id_col_name,

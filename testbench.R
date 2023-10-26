@@ -23,8 +23,21 @@ data("class_performance")
 
 group_col_name <- "class_teacher"
 id_col_name <- "student_id"
-event_col_name <- "passed_exam_num"
+event_col_name <- "passed_quiz_numeric"
 na_fill <- TRUE
+
+# class_performance <- class_performance %>%
+#     encode_staffer_ids(id_col = student_id, ranseed = 25834495) %>%
+#     select(-contains("student_id16")) %>%
+#     rename_with(~gsub("exam", "quiz", .x)) %>%
+#     rename("passed_quiz_numeric" = "passed_quiz_num") %>%
+#     group_by(student_id, class_teacher) %>%
+#     mutate(
+#         quiz_number = sample(1:15, size = n(), replace = FALSE)
+#     ) %>%
+#     relocate(student_id, class_teacher, quiz_number)
+# 
+# save(class_performance, file="class_performance.rda")
 
 ## generate the staffer_dictionary
 
@@ -54,16 +67,16 @@ na_fill <- TRUE
 # save(staffer_dictionary, file = "data/staffer_dictionary.rda")
 # fwrite(staffer_dictionary, file = "data/staffer_dictionary.csv")
 
-# haha <- permgp_fn(class_performance,
+# haha <- single_permutation(class_performance,
 #                   group_col_name = group_col_name,
 #                   id_col_name = id_col_name,
 #                   event_col_name = event_col_name,
 #                   systematic = TRUE,
 #                   na_fill = TRUE,
-#                   ranseed = 6)
+#                   ranseed = 8)
 # print(haha)
 
-# haha <- get_p_value(class_performance,
+# haha <- permgp_fn(class_performance,
 #                     group_col_name = group_col_name,
 #                     id_col_name = id_col_name,
 #                     event_col_name = event_col_name,
@@ -80,11 +93,11 @@ na_fill <- TRUE
 # print(hehe)
 
 # temp <- class_performance %>%
-#     select(student_id, class_teacher, passed_exam_num) %>%
+#     select(student_id, class_teacher, passed_quiz_num) %>%
 #     rename(
 #         id_ = student_id,
 #         group_ = class_teacher,
-#         event_ = passed_exam_num
+#         event_ = passed_quiz_num
 #     ) %>%
 #     mutate(
 #         id_ = as.numeric(factor(id_)),
@@ -102,32 +115,48 @@ na_fill <- TRUE
 #     relocate(id_,) %>%
 #     arrange(id_)
 
-# # haha <- class_performance %>% 
-# haha <- temp %>%
-#     permute_groups(systematic = TRUE)
+# haha <- tibble(
+#     event_ = c(1,0,1,0,1), 
+#     group_=c(1,1,2,2,1), 
+#     id_=1:5
+# ) %>% 
+# permute_groups(systematic = TRUE, ranseed = 5)
+
+# haha <- tibble(
+#     event_ = c(1,0,1,0,1),
+#     group_ = as.character(c(1,1,2,2,1)),
+#     id_=1:5
+# ) %>%
+# single_permutation(systematic = TRUE, ranseed = 6) %>%
+#     print()
+
+
 
 # haha <- global_permutation_test(class_performance,
-#                     group_col_name = group_col_name,
-#                     id_col_name = id_col_name,
-#                     event_col_name = event_col_name,
-#                     ntrials = 1000,
+#                     group_col_name = "class_teacher",
+#                     id_col_name = "student_id",
+#                     event_col_name = "passed_quiz_numeric",
+#                     ntrials = 100,
 #                     parallel = TRUE,
-#                     ranseed = NaN,
+#                     ranseed = 23748923,
 #                     systematic = TRUE,
 #                     na_fill = TRUE,
-#                     verbose = TRUE)
+#                     verbose = FALSE) %>%
+#     print()
 
-# haha <- pairwise_permutation_tests(class_performance,
-#                                    group_col_name = group_col_name,
-#                                    id_col_name = id_col_name,
-#                                    event_col_name = event_col_name,
-#                                    ntrials = 1000,
-#                                    compare_to = "Roth",
-#                                    parallel = TRUE,
-#                                    global_test_first = TRUE,
-#                                    verbose = TRUE,
-#                                    p_adj_meths = c("BH", "holm"),
-#                                    na_fill = TRUE)
+haha <- pairwise_permutation_tests(class_performance,
+                                   group_col_name = group_col_name,
+                                   id_col_name = id_col_name,
+                                   event_col_name = event_col_name,
+                                   ntrials = 100,
+                                   compare_to = "Roth",
+                                   parallel = TRUE,
+                                   global_test_first = TRUE,
+                                   verbose = FALSE,
+                                   p_adj_meths = c("BH", "holm"),
+                                   na_fill = TRUE,
+                                   ranseed = 68) %>%
+    print()
 
 
 

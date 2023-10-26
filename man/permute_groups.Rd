@@ -4,7 +4,7 @@
 \alias{permute_groups}
 \title{Group permutation}
 \usage{
-permute_groups(data_, systematic)
+permute_groups(data_, systematic, ..., ranseed = NaN)
 }
 \arguments{
 \item{data_}{data frame with at least three columns: group, id and event.

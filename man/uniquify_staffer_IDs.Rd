@@ -25,7 +25,7 @@ a list/data frame with the unique RothLab ID to allow tracing of
 activity throughout the encounters
 }
 \description{
-A lookup junction to get unique IDs for each of the icddr,b staffers
+A lookup function to get unique IDs for each of the icddr,b staffers
 (field, lab, etc) that worked on the SEPSIS project and recorded
 information for any of the encounters
 }
