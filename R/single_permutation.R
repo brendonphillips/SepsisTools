@@ -65,13 +65,6 @@ single_permutation <- function(data_,
     ) %>%
     subset(!is.na(group_))
 
-
-  if (!is.na(ranseed)) {
-    old_seed <- .Random.seed
-    on.exit({.Random.seed <<- old_seed})
-    set.seed(ranseed)
-  }
-
   #####
 
   # permuted_table <- permute_groups(standardised_table, systematic)
@@ -83,6 +76,11 @@ single_permutation <- function(data_,
   # There's a fix there; let's get to it. TECHNICAL DEBT
 
   ###### must get rid of
+  if (!is.na(ranseed)) {
+    old_seed <- .Random.seed
+    on.exit({.Random.seed <<- old_seed})
+    set.seed(ranseed)
+  }
   permuted_table <- standard_data %>%
     tibble %>%
     select(id_, group_) %>%
