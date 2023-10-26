@@ -114,6 +114,7 @@ For issues, contact me on Teams and/or email me.
 | 17 Oct 2023 |              R package proposed             |      Brendon Phillips     |      |
 | 23 Oct 2023 |          First draft of package finished    |      Brendon Phillips     |      |
 | 25 Oct 2023 |              Package documented             |      Brendon Phillips     |      |
+| 26 Oct 2023 | problems with `ranseed` arguments fixed     |  Brendon Phillips         | change necessitated by change to parameter names, `get_p_value_function` renamed to `single_permutation`    |
 |   ongoing   |                   testing                   | Cole Heasley, Celine Funk |      |
 
 ## Dependencies
