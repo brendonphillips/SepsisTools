@@ -26,7 +26,7 @@
 #' was given an ID number, usually of the form Dxxxxx/Nxxxxx (where each x is a 
 #' digit 0-9). During QA, we found that these IDs were not unique over the span 
 #' of the project and over all encounters, as was presumed. After communication 
-#' with the investigative team in Bangladesh, we formulated a lookup table lut) 
+#' with the investigative team in Bangladesh, we formulated a lookup table (lut) 
 #' that, based on our criteria, maps each data set ID number to a unique ID of 
 #' the format `RLxxxxx` (where x is a digit 0-9, with 'RL' an abbreviation for 
 #' "Roth Lab"). This lut is used in the function `encode_staffer_ids`.
