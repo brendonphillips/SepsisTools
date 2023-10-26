@@ -115,6 +115,12 @@ pairwise_permutation_tests <- function(data_,
                                        p_adj_meths = c("BH"),
                                        global_test_first = TRUE,
                                        verbose = TRUE) {
+  
+  if (!is.na(ranseed)) {
+    old_seed <- .Random.seed
+    on.exit({.Random.seed <<- old_seed})
+    set.seed(ranseed)
+  }
 
   data_groups <- unique(data_[[group_col_name]])
   if (! compare_to %in% data_groups) {
@@ -125,6 +131,8 @@ pairwise_permutation_tests <- function(data_,
     ))
   }
   other_groups <- data_groups %>% .[. != compare_to] %>% unique
+  
+  seed_vector = sample(1:1e9, size = length(data_groups), replace = F)
 
   pairwise_test_results <- list()
 
@@ -147,13 +155,15 @@ pairwise_permutation_tests <- function(data_,
       standard_data,
       ntrials = ntrials,
       parallel = parallel,
-      ranseed = ranseed,
+      ranseed = tail(seed_vector, 1),
       systematic = systematic,
-      verbose = TRUE
+      verbose = verbose
     )
   }
 
-  for (comparing_to in other_groups) {
+  for (idx in seq_along(other_groups)) {
+    
+    comparing_to = other_groups[idx]
 
     pairwise_test_results[[comparing_to]] <- global_permutation_test(
       # janky code to do the group filtering based on the unique name given
@@ -167,7 +177,7 @@ pairwise_permutation_tests <- function(data_,
       event_col_name = event_col_name,
       ntrials = ntrials,
       parallel = parallel,
-      ranseed = ranseed,
+      ranseed = seed_vector[idx],
       systematic = systematic,
       na_fill = na_fill,
       verbose = verbose
