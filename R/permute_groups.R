@@ -18,7 +18,7 @@
 #' @export
 permute_groups <- function(data_, 
                            systematic, 
-                           # ..., 
+                           ...,
                            ranseed = NaN) {
   
   if (!is.na(ranseed)) {

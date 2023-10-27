@@ -6,6 +6,7 @@
 \usage{
 global_permutation_test(
   data_,
+  ...,
   group_col_name = "group_",
   id_col_name = "id_",
   event_col_name = "event_",
@@ -22,6 +23,8 @@ global_permutation_test(
 \item{data_}{the data set, with at least three features: event (what 
 happened), id (who were they), group (what intervention were they 
 administered)}
+
+\item{...}{currently ignored}
 
 \item{group_col_name}{the name of the column with `group` information}
 
@@ -54,8 +57,6 @@ those rows out.}
 \item{verbose}{TRUE/FALSE whether a completion message with stats should be
 printed to the screen whenever the permutation test ends. A progress bar is
 printed in all cases.}
-
-\item{...}{currently ignored}
 }
 \value{
 A list giving `$p` (the p-value), `$error` (the Monte-Carlo

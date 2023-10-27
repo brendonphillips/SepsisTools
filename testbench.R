@@ -4,8 +4,8 @@ setwd("C:/Users/brendon phillips/Documents/GitHub/rothlab_permtest/")
 
 library(devtools)
 library(roxygen2)
-library(dplyr)
-library(readr)
+# library(dplyr)
+# library(readr)
 
 # detach("package:SepsisTools", unload = TRUE)
 # devtools::install_github("brendonphillips/SepsisTools", ref="main", force=TRUE)
@@ -144,19 +144,19 @@ na_fill <- TRUE
 #                     verbose = FALSE) %>%
 #     print()
 
-haha <- pairwise_permutation_tests(class_performance,
-                                   group_col_name = group_col_name,
-                                   id_col_name = id_col_name,
-                                   event_col_name = event_col_name,
-                                   ntrials = 100,
-                                   compare_to = "Roth",
-                                   parallel = TRUE,
-                                   global_test_first = TRUE,
-                                   verbose = FALSE,
-                                   p_adj_meths = c("BH", "holm"),
-                                   na_fill = TRUE,
-                                   ranseed = 68) %>%
-    print()
+# haha <- pairwise_permutation_tests(class_performance,
+#                                    group_col_name = group_col_name,
+#                                    id_col_name = id_col_name,
+#                                    event_col_name = event_col_name,
+#                                    ntrials = 100,
+#                                    compare_to = "Roth",
+#                                    parallel = TRUE,
+#                                    global_test_first = TRUE,
+#                                    verbose = FALSE,
+#                                    p_adj_meths = c("BH", "holm"),
+#                                    na_fill = TRUE,
+#                                    ranseed = 70) %>%
+#     print()
 
 
 
@@ -191,10 +191,31 @@ haha <- pairwise_permutation_tests(class_performance,
 
 
 
+test_data <- SepsisTools::get_data("Dose1Dataset")
 
+haha <- SepsisTools::global_permutation_test(
+    test_data,
+    group_col_name = "location_d",
+    id_col_name = "part_id",
+    event_col_name = "intolerance_n",
+    ntrials = 1000, # 200000,
+    parallel = FALSE,
+    ranseed = 68)
+print(haha)
 
+# test_data <- SepsisTools::get_table("AE_Cargiver_DuringIP") 
+# 
+# haha <- SepsisTools::global_permutation_test(
+#     test_data,
+#     group_col_name = "TreatmentGroupFake",
+#     id_col_name = "Participant",
+#     event_col_name = "Poor_feeding",
+#     ntrials = 10000, 
+#     parallel = TRUE,
+#     # lol_haha = 6,
+#     # ranseed = 69
+# )
 
-
-
+# print(haha)
 
 

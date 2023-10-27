@@ -30,7 +30,7 @@
 #'
 #' @export
 single_permutation <- function(data_,
-                        # ...,
+                        ...,
                         group_col_name = "group_",
                         id_col_name = "id_",
                         event_col_name = "event_",
