@@ -30,7 +30,7 @@
 #'
 #' @export
 single_permutation <- function(data_,
-                        ...,
+                        # ...,
                         group_col_name = "group_",
                         id_col_name = "id_",
                         event_col_name = "event_",
@@ -51,13 +51,15 @@ single_permutation <- function(data_,
   standard_data <- data_ %>%
     tibble() %>%
     select(all_of(c(id_col_name, group_col_name, event_col_name))) %>%
-    mutate(.sep.entry.id = 1:n()) %>%
     rename(
       id_ = !!id_col_name,
       group_ = !!group_col_name,
       event_ = !!event_col_name
     ) %>%
+    mutate(.sep.entry.id = 1:n()) %>%
     mutate(
+      id_ = as.character(id_),
+      group_ = as.character(group_),
       group_ = case_when(
         (na_fill) & is.na(group_) ~ ".NA_group",
         TRUE ~ group_

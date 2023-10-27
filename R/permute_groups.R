@@ -16,7 +16,10 @@
 #' ## standard col names, id_no, group_no, column_no
 #'
 #' @export
-permute_groups <- function(data_, systematic, ..., ranseed = NaN) {
+permute_groups <- function(data_, 
+                           systematic, 
+                           # ..., 
+                           ranseed = NaN) {
   
   if (!is.na(ranseed)) {
     old_seed <- .Random.seed
