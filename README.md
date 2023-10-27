@@ -124,6 +124,7 @@ For issues, contact me on Teams and/or email me.
 | 25 Oct 2023 |              Package documented             |      Brendon Phillips     |      |
 | 26 Oct 2023 | problems with `ranseed` arguments fixed     |  Brendon Phillips         | change necessitated by change to parameter names, `get_p_value_function` renamed to `single_permutation`  |
 | 26 Oct 2023 | staffer_dictionary amended after review | Brendon Phillips | one staffer name similarity dismissed as coincidence, dictionary regenerated |
+{ 27 Oct 2023 | p-value calculation corrected in the `global_permutation_test` function | Brendon Phillips | An issue was flagged initially by analyst Cole Heasley (subsequently confirmed by analyst Celine Funk) where the global permutation test applied to some data sets gave a p-value of 1 and an MC error of 0. The p-value calculation was changed from $\text{mean}(\text{teststatnull} \ge \text{teststat})$ to $\text{mean}(\text{teststatnull} > \text{teststat})$ (that is, the equal case was removed), and p-values decreased to believable values. This was the fault of the maintainer. Warnings ware now given when a seed was not set for any function in the package using random values. |
 |   ongoing   |                   testing                   | Cole Heasley, Celine Funk |      |
 
 ## Dependencies
@@ -145,7 +146,7 @@ For issues, contact me on Teams and/or email me.
 2. We will maintain the package in a public repository, given that none of the routines expose sensitive information, or could possibly lead to deanonymisation.
 
 ## Sources
-SEPSIS data (Microsoft 365), personal communication amongst the ANalysis team.
+SEPSIS data (Microsoft 365), personal communication amongst the Analysis team.
 
 ## To-do
 * access to `permute_groups` and `standard_tble` functions during parallel execution
