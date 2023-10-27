@@ -43,7 +43,7 @@
 #'
 #' @export
 global_permutation_test <- function(data_,
-                                    ...,
+                                    # ...,
                                     group_col_name = "group_",
                                     id_col_name = "id_",
                                     event_col_name = "event_",
@@ -84,24 +84,27 @@ global_permutation_test <- function(data_,
     length(data_groups) > 2,
     "all groups", paste(data_groups, collapse=" vs. ")
   )
-  
-  
+
+
   if (!is.na(ranseed)) {
     old_seed <- .Random.seed
     on.exit({.Random.seed <<- old_seed})
     set.seed(ranseed)
   }
-  
+
   seed_vector <- sample(1:1e9, size = num_trials, replace = FALSE)
+  
+  teststat_null <- array(data = NaN, dim = num_trials)
 
   if (parallel) {
 
     pool_size <- max(detectCores() - 2, 1)
 
-    message(sprintf(
-      "\nExecuting %s Permutation Test (%s) in parallel: %s workers",
-      permutation_test_type, competing_groups, pool_size
-    ))
+    message(gsub("\n$", "", sprintf(
+      "\nExecuting %s Permutation Test (%s) in parallel: %s workers.\n%s",
+      permutation_test_type, competing_groups, pool_size,
+      ifelse(is.na(ranseed), "Warning: ***NO SEED WAS SET FOR THE RANDOM NUMBER GENERATOR***.", "")
+    )))
 
     perm_cluster <- makeCluster(pool_size)
     registerDoSNOW(perm_cluster)
@@ -144,12 +147,11 @@ global_permutation_test <- function(data_,
 
   } else {
 
-    message(sprintf(
-      "\n%s Permutation Test (%s): serial execution selected",
-      permutation_test_type, competing_groups
-    ))
-
-    teststat_null <- array(data = NaN, dim = num_trials)
+    message(gsub("\n$", "", sprintf(
+      trimws("\n%s Permutation Test (%s): serial execution selected.\n%s"),
+      permutation_test_type, competing_groups, 
+      ifelse(is.na(ranseed), "Warning: ***NO SEED WAS SET FOR THE RANDOM NUMBER GENERATOR***.", "")
+    )))
 
     prog_bar <- txtProgressBar(max = num_trials, initial = 0, style = 3)
 
@@ -165,16 +167,18 @@ global_permutation_test <- function(data_,
     message("\n")
   }
 
-  if (check_) {
-    # check whether the members of teststat_null are different from each
-    # other; can go wrong when we don;t use the perm_group_ column when
-    # calculating the test statistic. make an upper triangular matrix out of
-    # the values and calculate the determinant. test whether the determinant
-    # is consistently e-close to the nth power of randomly chosen element of
-    # the vector. if so, the elements on the vector are all the same
-  }
+  # ret_obj <- teststat_null
+    
+  # if (check_) {
+  #   # check whether the members of teststat_null are different from each
+  #   # other; can go wrong when we don;t use the perm_group_ column when
+  #   # calculating the test statistic. make an upper triangular matrix out of
+  #   # the values and calculate the determinant. test whether the determinant
+  #   # is consistently e-close to the nth power of randomly chosen element of
+  #   # the vector. if so, the elements on the vector are all the same
+  # }
 
-  p_value <- mean(teststat_null >= teststat, na.rm = TRUE)
+  p_value <- mean(teststat_null > teststat, na.rm = TRUE)
   mc_error <- sqrt(p_value*(1-p_value)/num_trials)
   num_stats <- length(teststat_null)
   num_obs <- nrow(standard_data)
@@ -213,11 +217,15 @@ global_permutation_test <- function(data_,
     message(message_text)
   }
 
-  return(list(
+  ret_obj <- list(
+    # test_stat = teststat,
+    # test_stat_null = teststat_null,
     p = p_value,
     error = mc_error,
     N_trials = num_stats,
     N_obs = num_obs
-  ))
+  )
+  
+  return(ret_obj)
 
 }
