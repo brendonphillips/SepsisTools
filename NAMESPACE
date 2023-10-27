@@ -3,6 +3,7 @@
 export("%>%")
 export(encode_staffer_ids)
 export(events_to_num)
+export(get_data)
 export(get_table)
 export(global_permutation_test)
 export(pairwise_permutation_tests)
