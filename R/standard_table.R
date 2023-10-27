@@ -35,6 +35,8 @@ standard_table <- function(data_,
         event_ = !!event_col_name
       ) %>%
       mutate(
+        id_ = as.character(id_),
+        group_ = as.character(group_),
         group_ = case_when(
           (na_fill) & is.na(group_) ~ ".NA_group",
           TRUE ~ group_
