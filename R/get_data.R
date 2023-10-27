@@ -23,7 +23,7 @@
 #' @examples None
 #'
 #' @export
-get_table <- function(file_name, ..., folder_ = NA) {
+get_data <- function(file_name, ..., folder_ = NA) {
 
   if (is.na(folder_)) {
     folder <- getwd()
@@ -85,7 +85,7 @@ get_table <- function(file_name, ..., folder_ = NA) {
       paste(
         "'.%s' is not a recognised data file extension. Either change ",
         " the file request '%s', or add the extension '.%s' to the ",
-        "get_table function in 'maternal_sibling_stool_header.R' file ",
+        "get_data function in 'maternal_sibling_stool_header.R' file ",
         "in the '%s' folder",
         sep=" "
       ) %>%
@@ -96,4 +96,10 @@ get_table <- function(file_name, ..., folder_ = NA) {
   } %>%
     tibble
   )
+}
+
+#' Alias for `get_data`
+#' @export
+get_table <- function(file_name, ..., folder_ = NA) {
+  return( get_data(file_name, ..., folder_))
 }

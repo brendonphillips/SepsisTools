@@ -30,7 +30,7 @@ Collate:
     'event_to_num.R'
     'permute_groups.R'
     'single_permutation.R'
-    'get_table.R'
+    'get_data.R'
     'global_permutation_test.R'
     'magrittr.R'
     'pairwise_permutation_tests.R'
