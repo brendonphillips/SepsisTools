@@ -48,5 +48,5 @@ po/*~
 # RStudio Connect folder
 rsconnect/
 
-# no CSV data
+# no CSV data - rds take more thought, so may be less prone to accidental upload
 **/*.csv
