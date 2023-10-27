@@ -11,10 +11,11 @@
 #' @param folder_ the top-level folder in which to start searching for the file
 #' @param ... currently ignored
 #'
-#' @importFrom dplyr tibble
+#' @importFrom dplyr tibble select
 #' @importFrom data.table fread
 #' @importFrom readxl read_excel
 #' @importFrom haven read_dta
+#' @importFrom tools file_ext
 #'
 #' @return a tibble with the data read from the file matching the string
 #' expression given
