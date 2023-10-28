@@ -87,8 +87,7 @@ get_data <- function(file_name, ..., folder_ = NA) {
       paste(
         "'.%s' is not a recognised data file extension. Either change ",
         " the file request '%s', or add the extension '.%s' to the ",
-        "get_data function in 'maternal_sibling_stool_header.R' file ",
-        "in the '%s' folder",
+        "get_data function.",
         sep=" "
       ) %>%
         sprintf(extension, file_name, extension, folder) %>%
