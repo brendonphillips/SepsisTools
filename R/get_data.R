@@ -82,7 +82,7 @@ get_data <- function(file_name, ..., folder_ = NA) {
     } else if (extension == "dta") {
       read_dta(the_final)
     } else if (extension == "rds") {
-      readDRS(the_final)
+      readRDS(the_final)
     } else {
       gsub(" +", " ", paste(
           "'.%s' is not a recognised data file extension. Either change",
