@@ -87,7 +87,7 @@ get_data <- function(file_name, ..., folder_ = NA) {
       paste(
         "'.%s' is not a recognised data file extension. Either change ",
         " the file request '%s', or add the extension '.%s' to the ",
-        "get_data function.",
+        "`get_data` function. Empty frame returned.",
         sep=" "
       ) %>%
         sprintf(extension, file_name, extension, folder) %>%
