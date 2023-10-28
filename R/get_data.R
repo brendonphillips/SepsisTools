@@ -26,7 +26,7 @@
 get_data <- function(file_name, ..., folder_ = NA) {
 
   if (is.na(folder_)) {
-    folder <- getwd()
+    folder <- "."
   } else {
     folder <- folder_
   }
@@ -84,18 +84,18 @@ get_data <- function(file_name, ..., folder_ = NA) {
     } else if (extension == "rds") {
       readDRS(the_final)
     } else {
-      paste(
-        "'.%s' is not a recognised data file extension. Either change ",
-        " the file request '%s', or add the extension '.%s' to the ",
-        "get_data function.",
-        sep=" "
-      ) %>%
+      gsub(" +", " ", paste(
+          "'.%s' is not a recognised data file extension. Either change",
+          " the file request '%s', or add the extension '.%s' to the",
+          "`get_data` function. Empty frame returned.",
+          sep=" "
+        ) %>%
         sprintf(extension, file_name, extension, folder) %>%
-        warning(call. = FALSE)
-      tibble()
+        warning(call. = FALSE))
+      tibble() # the return
     }
   } %>%
-    tibble
+    tibble()
   )
 }
 
