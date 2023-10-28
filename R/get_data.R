@@ -81,6 +81,8 @@ get_data <- function(file_name, ..., folder_ = NA) {
       read_excel(the_final)
     } else if (extension == "dta") {
       read_dta(the_final)
+    } else if (extension == "rds") {
+      readDRS(the_final)
     } else {
       paste(
         "'.%s' is not a recognised data file extension. Either change ",
@@ -101,5 +103,5 @@ get_data <- function(file_name, ..., folder_ = NA) {
 #' Alias for `get_data`
 #' @export
 get_table <- function(file_name, ..., folder_ = NA) {
-  return( get_data(file_name, ..., folder_))
+  return( get_data(file_name, ..., folder_ = folder_) )
 }
