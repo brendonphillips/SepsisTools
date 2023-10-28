@@ -26,7 +26,7 @@
 get_data <- function(file_name, ..., folder_ = NA) {
 
   if (is.na(folder_)) {
-    folder <- getwd()
+    folder <- "."
   } else {
     folder <- folder_
   }
