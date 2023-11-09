@@ -21,9 +21,33 @@ standard_table <- function(data_,
                            id_vector = c(),
                            group_vector = c(),
                            event_vector = c(),
-                           na_fill = TRUE) {
+                           na_fill = TRUE,
+                           data_frame_name = "input") {
 
   if (is.data.frame(data_)) {
+    
+    names_data <- names(data_)
+    
+    if(! id_col_name %in% names_data) {
+      stop(sprintf(
+        "Requested id column `%s` is not a feature in the %s data frame. Options are: ['%s'].",
+        id_col_name, data_frame_name, paste(names_data, collapse = "', '")
+      ))
+    }
+    
+    if(! group_col_name %in% names_data) {
+      stop(sprintf(
+        "Requested group column `%s` is not a feature in the %s data frame.. Options are: ['%s'].",
+        group_col_name, data_frame_name, paste(names_data, collapse = "', '")
+      ))
+    }
+    
+    if(! event_col_name %in% names_data) {
+      stop(sprintf(
+        "Requested event column `%s` is not a feature in the %s data frame.. Options are: ['%s'].",
+        event_col_name, data_frame_name, paste(names_data, collapse = "', '")
+      ))
+    }
 
     stan_tab <- data_ %>%
       tibble() %>%

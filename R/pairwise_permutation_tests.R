@@ -92,7 +92,7 @@
 #'  p.adjust.methods)
 #'
 #' @importFrom plyr rbind.fill
-#' @importFrom dplyr tibble as_tibble bind_rows
+#' @importFrom dplyr tibble as_tibble bind_rows bind_cols relocate
 #' @importFrom stats p.adjust
 #' @importFrom purrr reduce map
 #' @importFrom data.table rbindlist
@@ -121,26 +121,29 @@ pairwise_permutation_tests <- function(data_,
     on.exit({.Random.seed <<- old_seed})
     set.seed(ranseed)
   }
-
-  data_groups <- unique(data_[[group_col_name]])
-  if (! compare_to %in% data_groups) {
-    stop(sprintf(
-      paste("Requested reference group `%s` is not among the groups",
-            "in the %s data frame. Aborting pairwise permutation test."),
-      compare_to, deparse(substitute(data_))
-    ))
-  }
-  other_groups <- data_groups %>% .[. != compare_to] %>% unique
   
-  seed_vector = sample(1:1e9, size = length(data_groups), replace = F)
-
-  pairwise_test_results <- list()
-
   standard_data <- standard_table(data_,
                                   group_col_name = group_col_name,
                                   id_col_name = id_col_name,
                                   event_col_name = event_col_name,
                                   na_fill = na_fill)
+
+  data_groups <- unique(standard_data$group_)
+  
+  if (! compare_to %in% data_groups) {
+    stop(sprintf(
+      paste("Requested reference group `%s` is not among the groups",
+            "in the '%s' column in the '%s' data frame. Aborting",
+            "pairwise permutation test."),
+      compare_to, group_col_name, deparse(substitute(data_))
+    ))
+  }
+  
+  other_groups <- data_groups %>% .[. != compare_to] %>% unique
+  
+  seed_vector = sample(1:1e9, size = length(data_groups), replace = F)
+
+  pairwise_test_results <- list()
 
   nested_list_to_tibble <- function(dat) {
     return(dat %>% map(as_tibble) %>% reduce(bind_rows))
