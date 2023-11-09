@@ -13,7 +13,8 @@ standard_table(
   id_vector = c(),
   group_vector = c(),
   event_vector = c(),
-  na_fill = TRUE
+  na_fill = TRUE,
+  data_frame_name = "input"
 )
 }
 \arguments{
