@@ -11,6 +11,7 @@ We aim to make sure that analysts are all using the same tested code, rather tha
 
 # Collaborators
 * Brendon Phillips (SickKids); brendon.phillips@sickkids.ca,
+* Eleanor Pullenayegum; ,
 * Cole Heasley (SickKids); ,
 * Miranda Loutet (SickKids); ,
 * Celine Funk (SickKids); ,
