@@ -92,7 +92,7 @@
 #'  p.adjust.methods)
 #'
 #' @importFrom plyr rbind.fill
-#' @importFrom dplyr tibble as_tibble bind_rows
+#' @importFrom dplyr tibble as_tibble bind_rows bind_cols relocate
 #' @importFrom stats p.adjust
 #' @importFrom purrr reduce map
 #' @importFrom data.table rbindlist
