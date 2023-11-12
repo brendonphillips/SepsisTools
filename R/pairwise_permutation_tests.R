@@ -179,7 +179,10 @@ pairwise_permutation_tests <- function(data_,
       id_col_name = id_col_name,
       event_col_name = event_col_name,
       ntrials = ntrials,
-      parallel = parallel,
+      # parallel = parallel,
+      # need to get the parallel function using standard_table, since lots of
+      # fixes have been deployed there, so killing parallel option for now
+      parallel = FALSE,
       ranseed = seed_vector[idx],
       systematic = systematic,
       na_fill = na_fill,
